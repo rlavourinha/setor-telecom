@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setor de Telecomunicações Brasileiro — Mapa do Sistema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f4; --surface:#ffffff; --surface-2:#f4f1ea;
+    --ink:#1b1f27; --ink-soft:#3a4150; --muted:#6b7480; --faint:#9aa2ad;
+    --line:#e7e2d8; --line-strong:#d8d2c5;
+    --mobile:#1f5f9e; --fiber:#1f8b6f; --fixed:#b07b1f; --pay:#8a5fb0;
+    --accent:#1f5f9e; --accent-soft:#eaf1f8;
+    --danger:#be3c34; --danger-soft:#fbeeed; --ok:#2f7d57; --ok-soft:#ecf5ef;
+    --insight:#7a5cab; --insight-soft:#f1edf8; --warn:#b07b1f; --warn-soft:#f8f1e0;
+    --shadow:0 1px 2px rgba(27,31,39,.04),0 6px 22px rgba(27,31,39,.06);
+    --radius:14px;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+    --serif:'Newsreader',Georgia,'Times New Roman',serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* ---------- Header ---------- */
+  header.masthead{background:linear-gradient(160deg,#14202b 0%,#173347 55%,#1f5f9e 140%);
+    color:#eef3f7;padding:46px 0 30px;border-bottom:3px solid #102531;}
+  .kicker{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:#8fb8d6;font-weight:600;margin-bottom:12px}
+  h1.title{font-family:var(--serif);font-weight:600;font-size:40px;line-height:1.1;
+    margin:0 0 10px;letter-spacing:-.01em}
+  .subtitle{font-size:17px;color:#c5d4df;max-width:760px;margin:0 0 18px;font-weight:400}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 14px;
+    font-size:12.5px;font-weight:500;color:#dce7ef;font-family:var(--mono)}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:#5fd0a0;box-shadow:0 0 0 3px rgba(95,208,160,.22)}
+  .head-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .chip.scope{background:transparent;color:#9bb5c8}
+
+  /* ---------- Tabs ---------- */
+  nav.tabs{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.93);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line-strong);}
+  .tabrow{display:flex;flex-wrap:wrap;gap:0 2px}
+  .tab{flex:0 0 auto;border:none;background:none;font-family:var(--sans);
+    font-size:13.5px;font-weight:550;color:var(--muted);padding:11px 11px 9px;
+    cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;
+    transition:color .15s,border-color .15s}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab .num{font-family:var(--mono);font-size:11px;color:var(--faint);margin-right:6px}
+  .tab.active .num{color:var(--accent)}
+
+  /* ---------- Sections ---------- */
+  main{padding:38px 0 80px}
+  .panel{display:none;animation:fade .35s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .lead{font-family:var(--serif);font-size:21px;line-height:1.5;color:var(--ink-soft);
+    max-width:780px;margin:0 0 30px;font-weight:400}
+  .lead b{color:var(--ink);font-weight:600}
+  h2.sec{font-family:var(--serif);font-size:27px;font-weight:600;margin:46px 0 6px;
+    letter-spacing:-.01em;display:flex;align-items:baseline;gap:12px}
+  h2.sec:first-of-type{margin-top:6px}
+  h2.sec .tag{font-family:var(--mono);font-size:12px;color:var(--accent);
+    background:var(--accent-soft);padding:3px 9px;border-radius:6px;font-weight:500}
+  .sec-sub{color:var(--muted);font-size:14.5px;margin:0 0 22px;max-width:760px}
+  h3.sub{font-size:18px;font-weight:650;margin:34px 0 10px;letter-spacing:-.01em}
+  /* Destaque de conteúdo novo — auto-reversível (ver HIGHLIGHT no script do rodapé) */
+  .is-new{position:relative}
+  .is-new::before{content:"";position:absolute;left:-14px;top:.14em;bottom:.14em;width:3px;border-radius:2px;background:#2f9e63}
+  .flag-new{display:inline-flex;align-items:center;gap:5px;vertical-align:middle;margin-left:10px;
+    font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:#1c6b45;background:#e7f5ec;border:1px solid #b4dcc4;border-radius:999px;padding:2px 9px}
+  .flag-new::before{content:"";width:5px;height:5px;border-radius:50%;background:#2f9e63;animation:newpulse 2.2s ease-out infinite}
+  @keyframes newpulse{0%{box-shadow:0 0 0 0 rgba(47,158,99,.5)}70%{box-shadow:0 0 0 6px rgba(47,158,99,0)}100%{box-shadow:0 0 0 0 rgba(47,158,99,0)}}
+  @media(prefers-reduced-motion:reduce){.flag-new::before{animation:none}}
+  h2.sec,h3.sub{scroll-margin-top:120px}
+  .toc{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;margin:14px 0 20px;
+    padding:10px 12px;background:#fbf9f4;border:1px solid #eee7da;border-radius:10px}
+  .toc .toc-t{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--faint);margin-right:4px}
+  .toc a{font-size:12.5px;color:var(--accent);text-decoration:none;background:var(--accent-soft);
+    padding:3px 10px;border-radius:999px;white-space:nowrap;border:none}
+  .toc a:hover{text-decoration:underline}
+  .xref{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--accent);
+    text-decoration:none;background:var(--accent-soft);border:1px solid #d5e2ef;
+    padding:3px 11px;border-radius:999px;margin:2px 0}
+  .xref:hover{text-decoration:underline}
+  .xref::before{content:"→";font-weight:700}
+  .gl{border-bottom:1px dotted var(--accent);cursor:help;position:relative}
+  .gl:hover::after,.gl:focus::after{content:attr(data-def);position:absolute;left:50%;bottom:1.55em;
+    transform:translateX(-50%);background:#1b1f27;color:#f4f1ea;padding:9px 12px;border-radius:9px;
+    font-size:12px;line-height:1.45;font-weight:400;font-style:normal;width:max-content;max-width:min(300px,84vw);
+    z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.25);pointer-events:none}
+  #totop{position:fixed;bottom:20px;right:20px;width:42px;height:42px;border-radius:50%;
+    background:var(--ink);color:#f4f1ea;border:none;font-size:19px;cursor:pointer;
+    display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.28);z-index:70;opacity:.85}
+  #totop:hover{opacity:1}
+  #totop.on{display:flex}
+  .asof{display:inline-block;vertical-align:middle;margin-left:7px;font-family:var(--mono);
+    font-size:10px;font-weight:600;letter-spacing:.03em;color:#7a828e;background:#f0ede5;
+    border:1px solid #e2dccd;border-radius:999px;padding:1px 8px;white-space:nowrap}
+  .asof.old{color:#8a6210;background:#f7edd4;border-color:#e8d5a4}
+  #glossario dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:3px 26px;margin:12px 0 0}
+  #glossario .gi{padding:7px 0;border-bottom:1px solid #eee7da}
+  #glossario dt{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--ink)}
+  #glossario dd{margin:2px 0 0;font-size:12.5px;color:var(--muted);line-height:1.45}
+  #glossario summary{cursor:pointer;font-weight:650;font-size:14px;color:var(--ink-soft)}
+  @media(max-width:560px){
+    .tab{padding:7px 9px;font-size:12px}
+    .tab .num{display:none}
+    figure .chart{overflow-x:auto}
+    figure .chart svg{min-width:520px}
+  }
+  p{margin:0 0 15px;max-width:800px}
+  p.tight{margin-bottom:8px}
+  .panel p, .panel li{color:var(--ink-soft)}
+  strong{color:var(--ink);font-weight:600}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(31,95,158,.3)}
+  a:hover{border-bottom-color:var(--accent)}
+
+  /* ---------- KPI grid ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:8px 0 26px}
+  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 16px;box-shadow:var(--shadow)}
+  .kpi .v{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1;letter-spacing:-.02em}
+  .kpi .v .u{font-size:15px;color:var(--muted);font-weight:500;margin-left:3px;font-family:var(--sans)}
+  .kpi .l{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
+  .kpi .src{font-size:10.5px;color:var(--faint);margin-top:6px;font-family:var(--mono)}
+  .kpi.hl{background:linear-gradient(165deg,#1f5f9e,#16456f);border-color:#16456f;color:#fff}
+  .kpi.hl .v{color:#fff}.kpi.hl .l{color:#cfe0ef}.kpi.hl .src{color:#9cc0dd}.kpi.hl .v .u{color:#cfe0ef}
+
+  /* ---------- Cards ---------- */
+  .cards{display:grid;gap:14px;margin:18px 0 26px}
+  .cards.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .cards.c3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow)}
+  .card h4{margin:0 0 8px;font-size:15.5px;font-weight:650;display:flex;align-items:center;gap:9px}
+  .card p{font-size:14px;margin:0;color:var(--ink-soft)}
+  .card .ico{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+    font-size:14px;flex:0 0 auto;color:#fff;font-weight:700;font-family:var(--mono)}
+  .cards .card.go{cursor:pointer;transition:border-color .12s, transform .12s}
+  .cards .card.go:hover{border-color:var(--accent);transform:translateY(-1px)}
+
+  /* ---------- Callouts ---------- */
+  .callout{border-radius:12px;padding:16px 18px 16px 16px;margin:20px 0;
+    border:1px solid;display:flex;gap:13px;align-items:flex-start;font-size:14.5px}
+  .callout .mk{flex:0 0 auto;font-weight:700;font-size:12px;font-family:var(--mono);
+    padding:3px 8px;border-radius:6px;letter-spacing:.04em;margin-top:1px}
+  .callout p{margin:0;color:var(--ink-soft);min-width:0}
+  .callout p+p{margin-top:8px}
+  @media(max-width:560px){.callout{flex-direction:column;gap:9px}.callout .mk{align-self:flex-start}}
+  .callout.insight{background:var(--insight-soft);border-color:#dccef0}
+  .callout.insight .mk{background:var(--insight);color:#fff}
+  .callout.warn{background:var(--warn-soft);border-color:#ecd8a8}
+  .callout.warn .mk{background:var(--warn);color:#fff}
+  .callout.danger{background:var(--danger-soft);border-color:#f2ccc8}
+  .callout.danger .mk{background:var(--danger);color:#fff}
+
+  /* ---------- Tables ---------- */
+  .tbl-wrap{overflow-x:auto;margin:20px 0;border:1px solid var(--line);
+    border-radius:var(--radius);box-shadow:var(--shadow);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:13.8px;min-width:520px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--surface-2);font-weight:650;color:var(--ink);font-size:12.5px;
+    letter-spacing:.02em;position:sticky;top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#fbfaf6}
+  td.num,th.num{text-align:right;font-family:var(--mono);font-size:13px;white-space:nowrap}
+  td.hlcell{background:var(--accent-soft)}
+  .gdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  tr.hlrow td{background:var(--accent-soft)}
+  tr.crisisrow td{background:var(--danger-soft)}
+  .mut{color:var(--muted);font-weight:400}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;
+    font-family:var(--sans);white-space:nowrap}
+  .pill.low{background:var(--ok-soft);color:var(--ok)}
+  .pill.mid{background:var(--warn-soft);color:var(--warn)}
+  .pill.high{background:var(--danger-soft);color:var(--danger)}
+
+  /* ---------- Charts ---------- */
+  figure{margin:22px 0 28px;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:20px 20px 16px;box-shadow:var(--shadow)}
+  figcaption{font-size:12px;color:var(--muted);margin-top:12px;font-family:var(--sans);line-height:1.5}
+  figcaption .ti{display:block;font-size:15px;color:var(--ink);font-weight:650;
+    margin-bottom:3px;font-family:var(--sans)}
+  .chart svg{display:block;width:100%;height:auto;overflow:visible}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  /* ---------- Flow / steps ---------- */
+  .flow{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;margin:22px 0 26px}
+  .flow .step{flex:1 1 150px;background:var(--surface);border:1px solid var(--line);
+    padding:14px 14px;position:relative;min-width:140px}
+  .flow .step:first-child{border-radius:12px 0 0 12px}
+  .flow .step:last-child{border-radius:0 12px 12px 0}
+  .flow .step .n{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600}
+  .flow .step .t{font-weight:650;font-size:14.5px;margin:3px 0 2px}
+  .flow .step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .flow .step::after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);
+    color:var(--faint);font-size:16px;z-index:2;background:var(--bg);padding:0 1px}
+  .flow .step:last-child::after{display:none}
+
+  /* ---------- Misc ---------- */
+  ul.clean{list-style:none;padding:0;margin:14px 0 22px}
+  ul.clean li{position:relative;padding:7px 0 7px 26px;border-bottom:1px solid var(--line);font-size:14.5px}
+  ul.clean li:last-child{border-bottom:none}
+  ul.clean li::before{content:"";position:absolute;left:4px;top:15px;width:7px;height:7px;
+    border-radius:50%;background:var(--accent)}
+  ul.num{counter-reset:c;list-style:none;padding:0;margin:14px 0 22px}
+  ul.num li{position:relative;padding:9px 0 9px 40px;border-bottom:1px solid var(--line);font-size:14.5px}
+  ul.num li:last-child{border-bottom:none}
+  ul.num li::before{counter-increment:c;content:counter(c);position:absolute;left:0;top:9px;
+    width:26px;height:26px;border-radius:7px;background:var(--accent-soft);color:var(--accent);
+    font-family:var(--mono);font-size:13px;font-weight:600;display:grid;place-items:center}
+  .src-note{font-size:12px;color:var(--faint);font-family:var(--mono);margin:6px 0 26px}
+  .divider{height:1px;background:var(--line);margin:38px 0}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:14px 0}
+  @media(max-width:720px){.twocol{grid-template-columns:1fr}h1.title{font-size:31px}.lead{font-size:19px}}
+
+  /* ---------- Era band ---------- */
+  .eras{display:flex;gap:6px;margin:20px 0 32px}
+  .eras .era{flex:1;border-radius:11px;padding:13px 14px;color:#fff;min-width:0;position:relative}
+  .eras .era .yr{font-family:var(--mono);font-size:11px;opacity:.9;font-weight:500;letter-spacing:.02em}
+  .eras .era .nm{font-weight:650;font-size:13.5px;line-height:1.28;margin-top:4px}
+  .eras .era .ar{position:absolute;right:-6px;top:50%;transform:translateY(-50%);z-index:2;
+    color:var(--faint);font-size:15px}
+  .eras .era:last-child .ar{display:none}
+  @media(max-width:720px){.eras{flex-direction:column}.eras .era .ar{display:none}}
+
+  /* ---------- Vertical timeline ---------- */
+  .timeline{position:relative;margin:14px 0 26px;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--line-strong)}
+  .tl{position:relative;padding:0 0 22px}
+  .tl:last-child{padding-bottom:2px}
+  .tl::before{content:"";position:absolute;left:-25px;top:4px;width:12px;height:12px;border-radius:50%;
+    background:var(--surface);border:2.5px solid var(--accent);box-shadow:0 0 0 3px var(--bg)}
+  .tl.crisis::before{border-color:var(--danger);background:var(--danger-soft)}
+  .tl.star::before{background:var(--accent)}
+  .tl .yr{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent)}
+  .tl.crisis .yr{color:var(--danger)}
+  .tl .ev{font-weight:650;font-size:15px;margin:1px 0 3px;color:var(--ink)}
+  .tl .why{font-size:13.5px;color:var(--muted);max-width:760px}
+  .tl .why b{color:var(--ink-soft);font-weight:600}
+
+  footer{background:#13202b;color:#9fb3c2;padding:34px 0 44px;font-size:13px}
+  footer h4{color:#e7eef3;font-size:14px;margin:0 0 10px}
+  footer a{color:#8fb8d6;border-bottom-color:rgba(143,184,214,.3)}
+  footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+  .badge-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .badge{font-size:11px;font-family:var(--mono);background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:3px 8px;color:#bcd0de}
+
+  /* ---------- Fórmulas ---------- */
+  .formula{background:var(--surface-2);border:1px solid var(--line-strong);border-left:3px solid var(--accent);
+    border-radius:12px;padding:16px 20px 18px;margin:20px 0}
+  .formula .cap{font-size:11.5px;font-weight:700;color:var(--accent);text-transform:uppercase;
+    letter-spacing:.06em;margin-bottom:12px;font-family:var(--mono)}
+  .formula .eq{font-family:var(--serif);font-size:25px;color:var(--ink);text-align:center;margin:6px 0 16px;line-height:1.2}
+  .formula .eq em{font-style:italic;color:var(--accent);font-weight:500}
+  .formula .eq sub{font-size:.62em;vertical-align:-.25em}
+  .formula .eq sup{font-size:.62em}
+  .formula dl{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;margin:0 0 4px;font-size:13.5px}
+  .formula dt{font-family:var(--mono);font-weight:600;color:var(--ink);white-space:nowrap}
+  .formula dd{margin:0;color:var(--ink-soft)}
+  .formula p{font-size:13.8px;color:var(--ink-soft);margin:12px 0 0;max-width:none}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 3px}
+  .frac span{padding:0 7px;line-height:1.25}
+  .frac .n{border-bottom:1.6px solid currentColor}
+
+  /* ---------- Flywheel ---------- */
+  .flywheel-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px 12px 18px;box-shadow:var(--shadow);margin:22px 0}
+  .flywheel-wrap svg{display:block;width:100%;height:auto;max-width:760px;margin:0 auto}
+</style>
+</head>
+<body>
+<script>window.CHARTS=[];</script>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Extrato · Aba Tecnologia</div>
+    <h1 class="title">Tecnologia das Redes &amp; Starlink</h1>
+    <p class="subtitle">A <em>física</em> por trás das redes — gerações 2G→5G, espectro, fibra, economics por
+      tecnologia — e o deep-dive do <b>Starlink</b>: enlaces usuário×gateway, frequência, energia da antena e
+      Direct to Cell. Extrato da aba Tecnologia do estudo completo do setor.</p>
+    <div class="head-meta">
+      <span class="chip"><span class="dot"></span>v1.2 · 5 jul 2026</span>
+      <span class="chip scope">Fontes: Anatel · Teleco · FCC · SpaceNews · GSMA · ITU · Ookla</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap">
+    <div class="tabrow" id="tabrow">
+      <button class="tab active" data-t="tec"><span class="num">★</span>Tecnologia &amp; Starlink</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+<section class="panel active" id="tec">
+  <p class="lead">Por baixo de cada mercado há uma <b>tecnologia mudando</b>. A última década do setor foi
+    definida por duas grandes transições: no móvel, de <b>2G a 5G</b>; no fixo, do <b>cobre à fibra</b>. Entender
+    a tecnologia é entender <em>por que</em> o mercado se move — velocidade, latência, custo e quem consegue
+    entregar o quê.</p>
+
+  <h2 class="sec" data-since="1.1">As gerações móveis: 2G → 5G <span class="tag">o que cada uma trouxe</span></h2>
+  <p>Cada geração móvel resolveu um problema diferente. O Brasil ainda carrega um pouco de <b>2G/3G</b> (M2M,
+    voz, áreas remotas), tem o <b>4G</b> como cavalo de batalha e o <b>5G</b> crescendo rápido desde 2022.</p>
+  <div class="cards c2">
+    <div class="card"><h4><span class="ico" style="background:var(--muted)">2G</span>2G — voz e SMS</h4><p>GSM. A rede da voz e do torpedo. Hoje sobrevive em M2M barato e cobertura rural; operadoras já falam em desligá-la para liberar espectro.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--fixed)">3G</span>3G — os primeiros dados</h4><p>WCDMA/HSPA. Trouxe internet ao celular, mas lenta. Em desativação progressiva — o espectro vale mais como 4G/5G.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--mobile)">4G</span>4G — banda larga móvel</h4><p>LTE. O cavalo de batalha: ~65% das linhas. Levou vídeo e apps à massa; ainda será a cobertura de base por muitos anos.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--accent)">5G</span>5G — latência e IoT</h4><p>NR. Muita capacidade, baixa latência, IoT massivo e <span class="gl" data-def="Fixed Wireless Access — internet fixa via rádio 4G/5G">FWA</span>. Já é ~24% das linhas e o mais rápido da AL.</p></div>
+  </div>
+  <figure>
+    <div class="chart" id="ch-movel-ger"></div>
+    <figcaption><span class="ti">Mix de gerações do móvel — % das linhas por ano</span>
+      Anatel (Tecnologia Geração). O 4G domina; o 5G escala desde 2022; 2G/3G recuam. Séries independentes.</figcaption>
+  </figure>
+
+  <h2 class="sec" data-since="1.1">O 5G a fundo <span class="tag">faixas e arquitetura</span></h2>
+  <p>Nem todo "5G" é igual. O que define desempenho é a <b>faixa de espectro</b> e a <b>arquitetura</b> (com ou
+    sem núcleo próprio). O Brasil fez uma escolha ambiciosa: lançou <b>5G SA</b> (autônomo) em <b>3,5 GHz</b> —
+    a configuração que entrega o 5G "de verdade", enquanto a maioria dos países começou no modo NSA.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Faixa</th><th>λ</th><th class="num">Alcance/célula</th><th>Penetração</th><th>Banda disponível</th><th>Vocação</th></tr></thead>
+      <tbody>
+        <tr><td><b>700 MHz</b></td><td>~43 cm</td><td class="num">5–10 km</td><td>Excelente — atravessa paredes</td><td>Estreita (~2×15 MHz)</td><td>Cobertura rural e indoor</td></tr>
+        <tr><td><b>2,3 GHz</b></td><td>~13 cm</td><td class="num">1–3 km</td><td>Boa</td><td>Média (~50–90 MHz)</td><td>Capacidade urbana (4G)</td></tr>
+        <tr><td class="hlcell"><b>3,5 GHz</b></td><td>~8,5 cm</td><td class="num">0,5–1,5 km</td><td>Moderada</td><td class="hlcell">Larga (100–400 MHz)</td><td class="hlcell">O coração do 5G — capacidade</td></tr>
+        <tr><td><b>26 GHz</b> <span class="gl" data-def="Ondas milimétricas — frequências muito altas (24–100 GHz), enorme capacidade mas só em linha de visada">(mmWave)</span></td><td>~1,1 cm</td><td class="num">100–300 m</td><td>Péssima — parede, chuva e folhagem bloqueiam</td><td>Enorme (centenas de MHz a GHz)</td><td>Hotspots densos, FWA em linha de visada</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 class="sub" data-since="1.1">A física: por que existe o trade-off alcance × capacidade</h3>
+  <p>Não é escolha comercial, é <b>física</b>. O comprimento de onda é λ = c/f: quanto <b>menor a frequência</b>,
+    <b>maior a onda</b> — ela <em>difrata</em> (contorna obstáculos), penetra paredes e viaja longe. Quanto
+    <b>maior a frequência</b>, menor a onda: vira quase um feixe de luz, exige <b>linha de visada</b> e é barrada
+    por parede, chuva, folhagem e até pela mão segurando o aparelho.</p>
+  <div class="formula">
+    <div class="cap">Comprimento de onda</div>
+    <div class="eq"><em>λ</em> = <span class="frac"><span class="n"><em>c</em></span><span class="d"><em>f</em></span></span></div>
+    <dl>
+      <dt>λ</dt><dd>comprimento de onda (m) — o "tamanho" físico da onda</dd>
+      <dt>c</dt><dd>velocidade da luz (~3×10⁸ m/s)</dd>
+      <dt>f</dt><dd>frequência (Hz)</dd>
+    </dl>
+    <p>700 MHz → λ ≈ 43 cm (onda grande, contorna obstáculos); 26 GHz → λ ≈ 1,1 cm (quase um feixe de luz).</p>
+  </div>
+  <p>Pior ainda: a <b>perda no espaço livre</b> cresce com o <em>quadrado</em> da frequência. Dobrar a frequência,
+    à mesma distância, já custa <b>+6 dB</b> de perda — o sinal a 26 GHz derrete muito mais rápido que a 700 MHz.</p>
+  <div class="formula">
+    <div class="cap">Perda de percurso no espaço livre (Friis)</div>
+    <div class="eq">FSPL<sub>(dB)</sub> = 20·log<sub>10</sub>(<em>d</em>) + 20·log<sub>10</sub>(<em>f</em>) + 32,44</div>
+    <dl>
+      <dt>FSPL</dt><dd>atenuação do sinal (dB) — quanto ele enfraquece no caminho</dd>
+      <dt>d</dt><dd>distância (km)</dd>
+      <dt>f</dt><dd>frequência (MHz)</dd>
+    </dl>
+    <p>Como a frequência entra ao quadrado (o <b>20·log₁₀</b> significa elevar ao quadrado, em dB), <b>alcance e
+      frequência são inimigos</b>. Por isso o 700 MHz cobre um município inteiro e o 26 GHz mal atravessa a rua.</p>
+  </div>
+  <p>O contraponto: só nas <b>frequências altas</b> há <b>banda larga contígua</b> disponível (centenas de MHz
+    em 3,5 GHz, GHz inteiros em 26 GHz), e capacidade ≈ banda. Por isso as operadoras montam um <b>bolo de
+    camadas</b>: banda baixa (700 MHz) para <b>cobrir</b> com poucas torres, banda média (3,5 GHz) para dar
+    <b>capacidade</b> nas cidades com <span class="gl" data-def="Small cells — micro-antenas de curto alcance, adensadas para aumentar capacidade em áreas movimentadas">small cells</span>,
+    e mmWave para <b>hotspots</b> pontuais. Cobertura e capacidade puxam para lados opostos do espectro.</p>
+  <div class="callout insight">
+    <span class="mk">SA × NSA</span>
+    <p>No <b>NSA</b> (não-autônomo), o 5G usa o núcleo do 4G — ganha velocidade, mas não a latência baixa nem o
+      <em>network slicing</em>. No <b>SA</b> (autônomo), há um núcleo 5G próprio, que habilita latência de
+      milissegundos, fatias de rede dedicadas (indústria, missão crítica) e IoT massivo. O Brasil apostou no
+      <b>SA em 3,5 GHz</b> — por isso lidera velocidade móvel na região. O gargalo agora não é cobertura (já em
+      todos os municípios), é <b>adoção</b>: o preço do aparelho segura a migração.</p>
+  </div>
+
+  <h2 class="sec" data-since="1.1">O espectro brasileiro: quem tem o quê e as regras do jogo <span class="tag">o ativo mais escasso</span></h2>
+  <p>O espectro é o <b>insumo mais escasso</b> do móvel — e como o Estado o divide define o setor. Aqui: como as
+    faixas são separadas, quem detém cada uma, as regras, os custos recorrentes, os prazos, as obrigações — e como
+    o modelo brasileiro (<b>pouco caixa, muita obrigação</b>) se compara ao mundo.</p>
+  <figure>
+    <div class="chart" id="spectrum-ladder"></div>
+    <figcaption><span class="ti">As faixas do móvel no Brasil — posição no espectro e geração</span>
+      Eixo de frequência em escala log; altura ∝ quantidade de MHz. Faixas baixas (700 MHz) cobrem; altas (3,5 e 26 GHz) dão capacidade.</figcaption>
+  </figure>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Faixa</th><th class="num">MHz (SMP)</th><th>Modo</th><th>Geração</th><th>Papel</th></tr></thead>
+      <tbody>
+        <tr><td><b>700 MHz</b></td><td class="num">60</td><td>FDD</td><td>4G → 5G</td><td>Cobertura (dividendo digital da TV)</td></tr>
+        <tr><td><b>850 MHz</b></td><td class="num">~50</td><td>FDD</td><td>2G/3G → refarming 4G</td><td>Legado em migração</td></tr>
+        <tr><td><b>1800 MHz</b></td><td class="num">~150</td><td>FDD</td><td>4G (principal)</td><td>Capacidade urbana</td></tr>
+        <tr><td><b>2,1 GHz</b></td><td class="num">~120</td><td>FDD</td><td>3G → 4G</td><td>Banda 3G clássica</td></tr>
+        <tr><td><b>2,3 GHz</b></td><td class="num">90</td><td>TDD</td><td>4G/5G</td><td>Regional (leilão 2021)</td></tr>
+        <tr><td><b>2,5 GHz</b></td><td class="num">~100</td><td>FDD/TDD</td><td>4G</td><td>Banda 4G principal (LTE B7)</td></tr>
+        <tr><td class="hlcell"><b>3,5 GHz</b></td><td class="num hlcell">400</td><td>TDD</td><td class="hlcell">5G (carro-chefe)</td><td class="hlcell">O coração do 5G SA</td></tr>
+        <tr><td><b>26 GHz</b> (mmWave)</td><td class="num">3.200</td><td>TDD</td><td>5G mmWave</td><td>Enorme, mas uso incipiente</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub" data-since="1.1">Quem tem o quê</h3>
+  <p>No <b>3,5 GHz</b> — a faixa que importa para o 5G — só <b>Claro, Vivo e TIM</b> têm bloco <b>nacional</b> (80 MHz
+    cada). O resto do 3,5 GHz e o 2,3 GHz foram por lotes <b>regionais</b> (Brisanet, Algar, Sercomtel, Consórcio Sul,
+    Cloud2U). No <b>700 MHz</b>, a Winity arrematou o bloco nacional em 2021, mas <b>renunciou em 2023</b> — e a faixa
+    foi relicitada em <b>2026 a regionais</b> (Brisanet, Unifique, Amazônia 5G, iez!).</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Operadora</th><th class="num">MHz antes do 5G</th><th class="num">MHz após o 5G*</th><th>3,5 GHz nacional</th></tr></thead>
+      <tbody>
+        <tr><td><b>Vivo</b> (Telefônica)</td><td class="num">194</td><td class="num">864</td><td class="hlcell">80 MHz (lote B2)</td></tr>
+        <tr><td><b>TIM</b></td><td class="num">174</td><td class="num">834</td><td class="hlcell">80 MHz (lote B3)</td></tr>
+        <tr><td><b>Claro</b></td><td class="num">214</td><td class="num">684</td><td class="hlcell">80 MHz (lote B1)</td></tr>
+        <tr><td><b>Algar</b> (regional)</td><td class="num">90</td><td class="num">1.210</td><td>80 MHz regional</td></tr>
+        <tr><td><b>Oi</b></td><td class="num">100</td><td class="num">—</td><td>vendido a Vivo/TIM/Claro (2022)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="mk">CUIDADO COM O NÚMERO BRUTO</span>
+    <p>Os totais "após o 5G" <b>enganam</b>: são inflados pelo <b>26 GHz</b> (blocos de 200 MHz) e pelo 2,3 GHz — por
+      isso a Algar, regional, aparece "na frente" (abocanhou muito mmWave na sua área). Para <b>cobertura 5G de
+      verdade</b>, o que vale é o <b>sub-3 GHz por habitante</b> — e aí a <b>Claro é a mais bem servida</b>, apesar
+      de ter menos MHz bruto. Largura de espectro ≠ qualidade de cobertura. *Foto de nov/2021, antes da redistribuição da Oi.</p>
+  </div>
+
+  <h3 class="sub" data-since="1.1">As regras do espectro</h3>
+  <div class="cards c2">
+    <div class="card"><h4>Autorização de Uso (AUR)</h4><p>O direito de usar uma subfaixa numa área e prazo, atrelado à autorização de serviço (SMP). Pode ser <b>primário</b> (protegido contra interferência) ou <b>secundário</b> (uso oportunista, sem proteção).</p></div>
+    <div class="card"><h4>Spectrum cap</h4><p>Limite por grupo (Res. 703/2018): <b>35%</b> abaixo de 1 GHz e <b>30%</b> entre 1–3 GHz (até 40% com condicionantes). Em revisão (consulta 2026): 30% em três blocos (&lt;1 GHz, 1–3 GHz, 3–7 GHz).</p></div>
+    <div class="card"><h4>Uso secundário p/ ISPs</h4><p>Com a renúncia da Winity, a Anatel liberou o <b>700 MHz em caráter secundário</b> a pequenos provedores (2024) — blocos 5+5/10+10 MHz. Foi a ponte até a relicitação de 2026.</p></div>
+    <div class="card"><h4>RAN sharing</h4><p>Compartilhamento de rede precisa de <b>anuência da Anatel</b>. Casos: Vivo–TIM (ativos da Oi), Claro–Nextel, Vivo–Winity (aprovado com restrições que ajudaram a Winity a desistir).</p></div>
+    <div class="card"><h4>Neutralidade &amp; refarming</h4><p>Outorgas são <b>tecnologicamente neutras</b>: dá para reusar faixa de 2G/3G para 4G/5G (<em>refarming</em>). A Anatel propõe refarming de 850/900/1800 MHz + <b>desligamento gradual do 2G</b>.</p></div>
+    <div class="card"><h4>Serviço × frequência</h4><p>São <b>duas outorgas distintas</b>: a do <b>serviço (SMP)</b> é por prazo <b>indeterminado</b>; a da <b>frequência</b> vence (até 20 anos) e precisa ser prorrogada — com contrapartidas.</p></div>
+  </div>
+
+  <h3 class="sub" data-since="1.1">Os custos recorrentes — barato de outorga, caro de manter</h3>
+  <p>O espectro brasileiro é <b>barato de arrematar</b> (o leilão 5G rendeu pouco caixa), mas <b>caro de operar</b>:
+    o custo não vem de um "aluguel de MHz", vem de um <b>pacote de taxas</b> sobre cada estação e sobre a receita.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Taxa / contribuição</th><th>Base</th><th class="num">Valor</th><th class="num">Arrecadação 2023</th></tr></thead>
+      <tbody>
+        <tr><td><b>Fistel — TFI</b></td><td>por linha ativada (1×)</td><td class="num">R$ 26,83</td><td class="num" rowspan="2">R$ 1,8 bi</td></tr>
+        <tr><td><b>Fistel — TFF</b></td><td>por linha, anual (= <b>50%</b> da TFI)</td><td class="num">R$ 13,42/ano</td></tr>
+        <tr><td><b>Fust</b></td><td>1,0% da receita bruta</td><td class="num">1,0%</td><td class="num">R$ 1,3 bi</td></tr>
+        <tr><td><b>Condecine-Telecom</b></td><td>por linha (audiovisual)</td><td class="num">~R$ 4,14/ano</td><td class="num">R$ 1,2 bi</td></tr>
+        <tr><td><b>Funttel</b></td><td>0,5% da receita de serviços</td><td class="num">0,5%</td><td class="num">R$ 0,33 bi</td></tr>
+        <tr><td><b>CFRP</b> (radiodifusão pública)</td><td>~12% da TFI das novas estações</td><td class="num">~12%</td><td class="num">R$ 0,34 bi</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Só os <b>fundos setoriais somam ~R$ 5,1 bilhões/ano</b> (2023). Somando ICMS (17–18%, de <b>33% a 54% da conta</b>),
+    PIS/Cofins e as contribuições, a <b>carga total passa de ~30% da receita</b> — o Brasil está entre os países de
+    <b>maior tributação de telecom do mundo</b> (3º, GSMA). A polêmica jurídica em torno dessas taxas — o Fistel é
+    <em>taxa</em> ou <b>imposto disfarçado</b>? — está detalhada na aba <b>Regulação econômica</b> do estudo completo.</p>
+  <h3 class="sub" data-since="1.1">Os prazos</h3>
+  <p>A <b>autorização de radiofrequência</b> vale <b>até 20 anos</b> e é <b>prorrogável</b> — e, desde a Lei
+    13.879/2019, a prorrogação pode ser <b>sucessiva</b> (por iguais períodos), desde que a operadora tenha
+    cumprido suas obrigações e manifeste interesse. Na prorrogação, o poder público pode exigir <b>compromissos de
+    investimento no lugar do pagamento</b>. As faixas do 5G (2021) foram outorgadas por <b>20 anos, prorrogáveis</b>.
+    Repare: o <b>serviço</b> a operadora tem por tempo indefinido; a <b>frequência</b>, não — ela vence e volta à mesa.</p>
+
+  <h3 class="sub" data-since="1.1">As obrigações — o preço econômico real</h3>
+  <p>É aqui que está o custo de verdade do espectro no Brasil. No leilão 5G, dos <b>~R$ 47 bi</b> de valor, só
+    <b>~R$ 4,9 bi</b> foram caixa; <b>~R$ 42 bi</b> viraram <b>obrigação de investir</b>:</p>
+  <ul class="clean">
+    <li><b>5G em todas as capitais</b> desde jul/2022; em <b>todos os municípios ≥30 mil hab. até jul/2029</b>; nos menores até <b>dez/2029</b>; e em 1.700 localidades não-sede até 2030.</li>
+    <li><b>4G</b> em milhares de localidades via 700 MHz e 2,3 GHz (metas até 2025–2028).</li>
+    <li><b>Rodovias federais</b>: cobertura em ~<b>35.784 km</b> (2.349 trechos) até 2029.</li>
+    <li><b>Backhaul de fibra</b> a <b>530 sedes municipais</b> até dez/2026; <b>fibra subfluvial na Amazônia</b> (redes nos leitos dos rios).</li>
+    <li><b>R$ 3,1 bilhões</b> em conectividade de <b>escolas públicas</b>; e a <b>rede privativa segura do governo federal</b>.</li>
+    <li><b>EAF / limpeza da banda C</b> (3,5 GHz): ~<b>R$ 3,5 bi</b>, remanejando 1.482 estações de satélite — concluída ~14 meses antes do prazo.</li>
+  </ul>
+  <p class="src-note">A Anatel fiscaliza com metas e datas fixas (grupos Gape/Gaispi); descumprimento gera multa (PADO). Em jun/2026, atestou o cumprimento das obrigações do 5G. Fontes: Anatel · Teleco · TELETIME · Conexis · editais.</p>
+
+  <h3 class="sub" data-since="1.1">O leilão 5G, lote a lote — e o que ele revela</h3>
+  <p>Destrinchar o leilão de 2021 revela padrões que a média esconde: os <b>lotes nacionais</b> saíram quase de
+    graça (ágio baixo, pouca disputa), enquanto os <b>regionais</b> tiveram guerras de lance com <b>ágios
+    absurdos</b> — e um entrante gastou mais que uma incumbente.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>3,5 GHz — o coração do 5G (80 MHz)</th><th>Vencedor</th><th class="num">Preço mín.</th><th class="num">Pago</th><th class="num">Ágio</th></tr></thead>
+      <tbody>
+        <tr><td><b>B1</b> nacional</td><td>Claro</td><td class="num">321</td><td class="num">338</td><td class="num">+5%</td></tr>
+        <tr><td><b>B2</b> nacional</td><td>Vivo</td><td class="num">321</td><td class="num">420</td><td class="num">+31%</td></tr>
+        <tr><td><b>B3</b> nacional</td><td>TIM</td><td class="num">321</td><td class="num">351</td><td class="num">+9%</td></tr>
+        <tr><td>B4 nacional</td><td colspan="4"><em>deserto — sem proposta</em></td></tr>
+        <tr><td class="hlcell"><b>C4</b> regional (NE)</td><td class="hlcell">Brisanet</td><td class="num">9</td><td class="num hlcell">1.250</td><td class="num hlcell"><b>+13.744%</b></td></tr>
+        <tr><td><b>C7</b> regional</td><td>Cloud2u</td><td class="num">6</td><td class="num">405</td><td class="num">+6.271%</td></tr>
+        <tr><td><b>C5</b> regional</td><td>Brisanet</td><td class="num">2,5</td><td class="num">105</td><td class="num">+4.050%</td></tr>
+        <tr><td><b>C2 · C6 · C8</b></td><td>Sercomtel · Cons. Sul · Algar</td><td class="num">—</td><td class="num">82 · 74 · 2</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Outras faixas</th><th>Destaques</th></tr></thead>
+      <tbody>
+        <tr><td><b>700 MHz</b> (nacional, A1)</td><td>Winity R$ 1.428 mi (ágio +806%) — <b>renunciou em 2023</b>; relicitado a regionais em 2026</td></tr>
+        <tr><td><b>2,3 GHz</b> (regional)</td><td>Claro levou SP/N/S/CO (~R$ 1,2 bi; SP com +755%); Vivo ~R$ 290 mi; TIM RJ/MG/ES R$ 450 mi; Brisanet NE R$ 111 mi; Algar F8 <b>+1.127%</b></td></tr>
+        <tr><td><b>26 GHz</b> (mmWave)</td><td>Ágio ~<b>zero</b> (lances no mínimo); Claro 2 lotes, Vivo 3, TIM regionais; <b>5 dos 10 nacionais desertos</b> — ninguém quer mmWave ainda</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout insight">
+    <span class="mk">O QUE O LEILÃO REVELA</span>
+    <p><b>(1) Os nacionais foram baratos, os regionais foram guerra.</b> O 3,5 GHz nacional saiu com ~5–31% de ágio
+      (os três grandes praticamente dividiram sem brigar); já o C4 regional teve <b>+13.744%</b> de ágio. <b>(2) Um
+      entrante gastou mais que uma incumbente:</b> a <b>Brisanet desembolsou ~R$ 1,47 bi</b> (C4+C5+E4) — <b>mais que
+      a Vivo (~R$ 929 mi) ou a TIM (~R$ 885 mi)</b>. A aposta agressiva do NE no 5G próprio começou aqui. <b>(3) O
+      26 GHz foi quase de graça e ficou meio vazio</b> — a tecnologia mmWave ainda não tem caso de uso que pague. Foram
+      <b>11 vencedores, 6 deles novos</b> (Winity, Brisanet, Cloud2u, Consórcio Sul, Fly Link, Neko).</p>
+  </div>
+  <p class="src-note">Outorga total ~R$ 7,4 bi (~R$ 4,8 bi ao caixa + ~R$ 2,6 bi de ágio convertido em compromissos);
+    compromissos ~R$ 42,4 bi; valor econômico total <b>R$ 47,2 bi</b> (ágio médio ~212%). Fontes: Teleco (resultado da
+    licitação) · Anatel · TELETIME · InvestNews. Alguns lotes de 2,3/26 GHz sem valor unitário publicado (n/d).</p>
+
+  <h3 class="sub" data-since="1.1">Comparação internacional — dois modelos opostos</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>País</th><th>Modelo</th><th>Receita (leilão-chave)</th><th>Prazo</th><th>Taxa recorrente</th><th>Cap</th></tr></thead>
+      <tbody>
+        <tr class="hlcell"><td><b>Brasil</b></td><td>obrigação &gt; caixa</td><td>~R$ 4,9 bi caixa / ~R$ 42 bi obrig. (5G)</td><td>20 anos, prorrog.</td><td>Fistel (por estação)</td><td>30–35%</td></tr>
+        <tr><td><b>EUA</b></td><td>leilão puro (caixa)</td><td>US$ 81 bi (C-band, 2021)</td><td>10 anos (renov. ≈ perpétua)</td><td>baixa</td><td>"screen" caso a caso</td></tr>
+        <tr><td><b>Reino Unido</b></td><td>leilão + aluguel anual</td><td>£1,4 bi (5G, 2021)</td><td>indefinido</td><td><b>ALF anual</b> (~£265 mi/ano, a valor de mercado)</td><td>340 MHz</td></tr>
+        <tr><td><b>Alemanha</b></td><td>caixa + obrigação</td><td>€6,5 bi (5G, 2019)</td><td>~15–20 anos</td><td>baixa</td><td>caso a caso</td></tr>
+        <tr><td><b>Índia</b></td><td>leilão caro (caixa)</td><td>US$ 19 bi (5G, 2022)</td><td>20 anos</td><td>SUC (histórico)</td><td>40%</td></tr>
+        <tr><td><b>México</b></td><td>leilão + taxa alta</td><td>baixa demanda — <b>espectro devolvido</b></td><td>~20 anos</td><td><b>taxa anual altíssima</b></td><td>pró-entrante</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout insight">
+    <span class="mk">A GRANDE LIÇÃO</span>
+    <p>O trade-off é entre <b>caixa para o Estado</b>, <b>cobertura barata para o consumidor</b> e <b>saúde financeira
+      das operadoras</b> — ninguém otimiza os três. O <b>Brasil comprou cobertura</b> (abriu mão de ~R$ 42 bi de
+      receita para virar infraestrutura); os <b>EUA/Europa venderam escassez</b> (leilões de dezenas de bilhões que,
+      em 2000, endividaram o setor — a "maldição do vencedor" que atrasou o 3G). O <b>Reino Unido</b> troca o choque
+      único por um <b>aluguel anual</b> (ALF a valor de mercado). E o <b>México</b> é o alerta: taxa recorrente tão
+      alta que operadoras <b>devolvem espectro</b> — nem caixa, nem cobertura. Comparar Brasil e EUA por "quanto
+      arrecadou" é comparar coisas diferentes: um comprou cobertura, o outro vendeu escassez. O sucesso do modelo
+      brasileiro não se mede no valor do leilão (baixo por desenho), e sim na <b>taxa de cumprimento das obrigações</b>.</p>
+  </div>
+  <script>
+  CHARTS.push({id:'spectrum-ladder',fn:function(mount){
+    var NS='http://www.w3.org/2000/svg';
+    function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+    var C=window.__chartAPI.C, W=920,H=200,padL=26,padR=26,base=148;
+    var f0=Math.log10(600), f1=Math.log10(30000);
+    function X(mhz){return padL+(W-padL-padR)*(Math.log10(mhz)-f0)/(f1-f0);}
+    function BH(mhz){return 18+62*(Math.log10(mhz)-Math.log10(18))/(Math.log10(3200)-Math.log10(18));}
+    var bands=[
+      {n:'700M',f:700,mhz:60,c:C.mobile},
+      {n:'850M',f:850,mhz:50,c:C.gray},
+      {n:'1,8G',f:1800,mhz:150,c:C.mobile},
+      {n:'2,1G',f:2100,mhz:120,c:C.warn},
+      {n:'2,3G',f:2400,mhz:90,c:C.fiber},
+      {n:'3,5G',f:3500,mhz:400,c:C.fiber},
+      {n:'26G',f:26000,mhz:3200,c:C.accent}
+    ];
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img'});
+    svg.appendChild(el('line',{x1:padL,y1:base,x2:W-padR,y2:base,stroke:'#c9d2c0','stroke-width':2}));
+    [700,1000,2000,3500,10000,26000].forEach(function(t){
+      var x=X(t);
+      svg.appendChild(el('line',{x1:x,y1:base,x2:x,y2:base+5,stroke:'#9aa2ad'}));
+      svg.appendChild(el('text',{x:x,y:base+18,'text-anchor':'middle','font-size':10,fill:'#9aa2ad','font-family':'IBM Plex Mono,monospace'},t>=1000?(t/1000)+' GHz':t+' MHz'));
+    });
+    bands.forEach(function(b){
+      var x=X(b.f), h=BH(b.mhz), w=15;
+      svg.appendChild(el('rect',{x:x-w/2,y:base-h,width:w,height:h,rx:3,fill:b.c}));
+      svg.appendChild(el('text',{x:x,y:base-h-13,'text-anchor':'middle','font-size':11.5,'font-weight':700,fill:'#1b1f27','font-family':'Inter,sans-serif'},b.n));
+      svg.appendChild(el('text',{x:x,y:base-h-2,'text-anchor':'middle','font-size':9,fill:'#6b7480','font-family':'IBM Plex Mono,monospace'},b.mhz+'MHz'));
+    });
+    mount.innerHTML='';mount.appendChild(svg);
+    var lg=document.createElement('div');lg.className='legend';lg.style.marginTop='6px';
+    lg.innerHTML='<span><i style="background:'+C.gray+'"></i>2G/3G legado</span><span><i style="background:'+C.warn+'"></i>3G→4G</span><span><i style="background:'+C.mobile+'"></i>4G</span><span><i style="background:'+C.fiber+'"></i>5G 3,5G</span><span><i style="background:'+C.accent+'"></i>5G mmWave</span>';
+    mount.appendChild(lg);
+  }});
+  </script>
+
+  <h2 class="sec" data-since="1.1">Acesso fixo: do cobre à fibra <span class="tag">a grande substituição</span></h2>
+  <p>No fixo, a história é uma <b>substituição de tecnologia</b>: o par de cobre (xDSL) e o coaxial (cabo/HFC)
+    perderam para a <b>fibra (FTTH)</b>, que hoje é ~79% dos acessos. E na borda, o <b>rádio (FWA)</b> e o
+    <b>satélite</b> avançam onde a fibra não compensa.</p>
+  <figure>
+    <div class="chart" id="ch-fixo-tec"></div>
+    <figcaption><span class="ti">Mix de tecnologias da banda larga fixa — % dos acessos por ano</span>
+      Anatel. A fibra ultrapassou cabo e xDSL por volta de 2020 e não parou; o cobre virou pó. Note o satélite subindo (efeito Starlink).</figcaption>
+  </figure>
+  <div class="cards c3">
+    <div class="card"><h4>xDSL (cobre)</h4><p>ADSL/VDSL sobre o par telefônico. Barato de herdar, limitado em velocidade e distância. Em extinção (&lt;1%).</p></div>
+    <div class="card"><h4>HFC / cabo</h4><p>Coaxial da TV a cabo (DOCSIS), da antiga NET/Claro. Rápido, mas compartilhado e assimétrico. Declina devagar.</p></div>
+    <div class="card"><h4>FTTH (GPON)</h4><p>Fibra até a casa. Dedicada, simétrica, escalável (GPON → XGS-PON = 10 Gbps). O padrão dominante — e o que os ISPs construíram.</p></div>
+    <div class="card"><h4><span class="gl" data-def="Fixed Wireless Access">FWA</span></h4><p>Internet fixa via rádio 4G/5G. Alternativa rápida de instalar onde a fibra não chega; a Brisanet e outros usam.</p></div>
+    <div class="card"><h4>Satélite GEO (VSAT)</h4><p>Geoestacionário; cobre qualquer lugar, mas com alta latência. O padrão rural até a chegada do LEO.</p></div>
+    <div class="card"><h4>Satélite LEO (Starlink)</h4><p>Órbita baixa: latência baixa e boa velocidade. Explodindo na Amazônia e no rural — a nova fronteira da conectividade.</p></div>
+  </div>
+
+  <h2 class="sec" data-since="1.1">Tecnologias de fibra a fundo <span class="tag">PON, GPON, XGS-PON</span></h2>
+  <p>A fibra transmite <b>luz</b> (nas janelas de 1310 e 1550 nm), com atenuação de apenas ~0,2–0,35 dB/km e
+    banda na casa dos <b>terahertz</b> — para efeitos práticos, <b>ilimitada</b>. A questão não é a fibra, é a
+    <b>arquitetura</b> que reparte o custo dela. Há dois modelos:</p>
+  <div class="cards c2">
+    <div class="card"><h4>Ponto-a-ponto (P2P)</h4><p>Uma fibra <b>dedicada</b> por cliente, direto até a central. Capacidade máxima e simetria total — mas cara (uma porta e uma fibra por assinante). Usada em <b>B2B</b> e enlaces críticos.</p></div>
+    <div class="card"><h4><span class="gl" data-def="Passive Optical Network — rede óptica passiva: uma fibra da central é repartida por um divisor óptico sem energia para várias casas">PON</span> — rede óptica passiva</h4><p>Uma fibra sai do <span class="gl" data-def="Optical Line Terminal — o equipamento na central que serve a PON">OLT</span> (central) e um <b>divisor passivo</b> (splitter) 1:32 ou 1:64 a reparte para várias casas (cada uma com um <span class="gl" data-def="Optical Network Terminal — o modem óptico na casa do assinante">ONT</span>). <b>Sem equipamento energizado no campo</b> — barato de operar. Foi o que <b>viabilizou o boom dos ISPs</b>.</p></div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Padrão PON</th><th class="num">Download</th><th class="num">Upload</th><th>Repartição</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>GPON</b></td><td class="num">2,49 Gbps</td><td class="num">1,24 Gbps</td><td>compartilhado (TDM) por até 64 casas</td><td>Dominante hoje</td></tr>
+        <tr><td class="hlcell"><b>XGS-PON</b></td><td class="num hlcell">10 Gbps</td><td class="num hlcell">10 Gbps</td><td>simétrico; convive com GPON na mesma fibra (WDM)</td><td>Em rollout</td></tr>
+        <tr><td><b>NG-PON2 / 25G / 50G-PON</b></td><td class="num">25–50 Gbps</td><td class="num">25–50 Gbps</td><td>múltiplos comprimentos de onda</td><td>Emergente / futuro</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout insight">
+    <span class="mk">POR QUE A FIBRA É "À PROVA DE FUTURO"</span>
+    <p>A banda está no <b>vidro</b>, não no equipamento. Para saltar de 2,5G (GPON) para 10G (XGS-PON) ou 50G,
+      você troca só a <b>eletrônica das pontas</b> (OLT e ONT) — a mesma fibra enterrada continua servindo.
+      Por isso o FTTH é imune à obsolescência que matou o xDSL: no cobre, a física do par limitava a velocidade;
+      no vidro, o limite está décadas à frente. Some a isso <b>imunidade a interferência</b>, baixa latência e a
+      capacidade de ser <b>simétrico</b> (mesmo up e down) — e fica claro por que a fibra venceu.</p>
+  </div>
+  <p class="src-note">Variações FTTx: <b>FTTH</b> (fibra até a casa) · <b>FTTB</b> (até o prédio) · <b>FTTC/FTTN</b>
+    (até o armário/nó, com os últimos metros em cobre/VDSL). Quanto mais perto do usuário a fibra chega, maior a velocidade real.</p>
+
+  <h2 class="sec" data-since="1.1">Velocidades: quanto cada tecnologia entrega — e por quê <span class="tag">up / down / latência</span></h2>
+  <p>Velocidades <b>reais típicas</b> (não os picos de laboratório). Repare em três coisas: o <b>abismo</b> entre
+    gerações, a <b>assimetria</b> (download &gt; upload) no rádio e no cabo, e a <b>latência</b> — muitas vezes
+    mais importante que a velocidade para a experiência.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tecnologia</th><th class="num">Download típico</th><th class="num">Upload típico</th><th class="num">Latência</th><th>Meio / natureza</th></tr></thead>
+      <tbody>
+        <tr><td>2G (EDGE)</td><td class="num">0,1–0,3 Mbps</td><td class="num">~0,1 Mbps</td><td class="num">300–600 ms</td><td>rádio compartilhado</td></tr>
+        <tr><td>3G (HSPA+)</td><td class="num">1–20 Mbps</td><td class="num">0,5–5 Mbps</td><td class="num">60–200 ms</td><td>rádio compartilhado</td></tr>
+        <tr><td>4G (LTE-A)</td><td class="num">15–150 Mbps</td><td class="num">5–50 Mbps</td><td class="num">30–60 ms</td><td>rádio (pico ~1 Gbps)</td></tr>
+        <tr class="hlcell"><td><b>5G sub-6 (3,5 GHz)</b></td><td class="num">100–900 Mbps</td><td class="num">20–150 Mbps</td><td class="num">10–30 ms</td><td>rádio</td></tr>
+        <tr><td>5G mmWave (26 GHz)</td><td class="num">1–4 Gbps</td><td class="num">100–500 Mbps</td><td class="num">~10 ms</td><td>rádio (linha de visada)</td></tr>
+        <tr><td>xDSL (VDSL2)</td><td class="num">até ~100 Mbps</td><td class="num">até ~40 Mbps</td><td class="num">10–40 ms</td><td>par de cobre (dedicado)</td></tr>
+        <tr><td>HFC (DOCSIS 3.1)</td><td class="num">0,3–1 Gbps</td><td class="num">20–50 Mbps</td><td class="num">10–30 ms</td><td>coaxial (compartilhado)</td></tr>
+        <tr class="hlcell"><td><b>FTTH (GPON)</b></td><td class="num">0,3–1 Gbps</td><td class="num">0,1–0,5 Gbps</td><td class="num">2–10 ms</td><td>fibra (quase simétrica)</td></tr>
+        <tr><td>FTTH (XGS-PON)</td><td class="num">até 10 Gbps</td><td class="num">até 10 Gbps</td><td class="num">2–10 ms</td><td>fibra (simétrica)</td></tr>
+        <tr><td>Satélite GEO (VSAT)</td><td class="num">25–100 Mbps</td><td class="num">3–10 Mbps</td><td class="num">500–700 ms</td><td>satélite alto (36.000 km)</td></tr>
+        <tr><td>Satélite LEO (Starlink)</td><td class="num">50–250 Mbps</td><td class="num">10–30 Mbps</td><td class="num">25–60 ms</td><td>satélite baixo (~550 km)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 class="sub" data-since="1.1">A teoria por trás dos números</h3>
+  <p>A velocidade de qualquer meio é, no fundo, <b>quanta informação cabe no canal</b> — e isso tem uma fórmula
+    fundamental. Toda a diferença entre 2G e fibra está em dois fatores: <b>quanta banda</b> você tem e
+    <b>quão eficiente</b> é o uso dela.</p>
+  <div class="formula">
+    <div class="cap">Taxa de transmissão</div>
+    <div class="eq"><em>R</em> = <em>B</em> × <em>η</em></div>
+    <dl>
+      <dt>R</dt><dd>taxa de dados (bits/s) — a "velocidade"</dd>
+      <dt>B</dt><dd>largura de banda (Hz) — o espectro/canal disponível</dd>
+      <dt>η</dt><dd>eficiência espectral (bits/s por Hz) — quão bem se aproveita a banda (modulação QAM, <span class="gl" data-def="Multiple-Input Multiple-Output — múltiplas antenas transmitindo em paralelo para multiplicar a capacidade">MIMO</span>)</dd>
+    </dl>
+    <p>No <b>rádio</b>, <em>B</em> é espectro <b>escasso</b> (leiloado por bilhões) — daí espremerem <em>η</em> com
+      256-QAM e MIMO massivo. Na <b>fibra</b>, <em>B</em> é óptica (terahertz): praticamente <b>ilimitada</b>. É
+      a raiz do abismo entre 5G (~centenas de Mbps) e XGS-PON (10 Gbps).</p>
+  </div>
+  <div class="formula">
+    <div class="cap">O teto absoluto — teorema de Shannon-Hartley</div>
+    <div class="eq"><em>C</em> = <em>B</em> · log<sub>2</sub>(1 + <em>S/N</em>)</div>
+    <dl>
+      <dt>C</dt><dd>capacidade máxima do canal (bits/s) — nenhuma tecnologia passa disso</dd>
+      <dt>B</dt><dd>largura de banda (Hz)</dd>
+      <dt>S/N</dt><dd>relação sinal-ruído (potência do sinal ÷ ruído)</dd>
+    </dl>
+    <p>Este é o limite <b>físico</b>, não de engenharia: dá para melhorar a modulação e a antena até chegar perto
+      de <em>C</em>, mas nunca ultrapassá-lo. Como <em>C</em> cresce só com o <b>log</b> da relação sinal-ruído,
+      dobrar a potência quase não ajuda — mas <b>dobrar a banda dobra a capacidade</b>. É por isso que o espectro
+      (a banda <em>B</em>) vale ouro, e por que o 5G foi buscar os 400 MHz largos do 3,5 GHz.</p>
+  </div>
+  <div class="formula">
+    <div class="cap">Latência de propagação</div>
+    <div class="eq"><em>t</em> = <span class="frac"><span class="n"><em>d</em></span><span class="d"><em>c</em></span></span></div>
+    <dl>
+      <dt>t</dt><dd>tempo de ida (s) — a latência mínima, imposta pela física</dd>
+      <dt>d</dt><dd>distância percorrida pelo sinal (m)</dd>
+      <dt>c</dt><dd>velocidade da luz (~3×10⁸ m/s; ~2×10⁸ na fibra)</dd>
+    </dl>
+    <p>A latência tem um piso que <b>nenhuma tecnologia vence</b>: a distância. O satélite <b>GEO</b> a 36.000 km
+      (ida e volta = 144.000 km) sofre ~600 ms — inviável para chamada de vídeo ou jogo. O <b>LEO</b> (Starlink),
+      a ~550 km, cai para ~30 ms. A fibra até a central (poucos km) chega a 2–10 ms. <b>Velocidade e latência são
+      coisas diferentes</b>: um link de satélite pode ter 200 Mbps e ainda assim ser ruim de usar.</p>
+  </div>
+  <div class="callout insight">
+    <span class="mk">O QUE ISSO EXPLICA</span>
+    <p>Três consequências práticas caem direto das fórmulas: <b>(1)</b> o <b>upload é menor</b> que o download
+      porque o espectro é dividido assimetricamente (TDD/FDD) — só a fibra entrega <b>simetria</b> com folga;
+      <b>(2)</b> a fibra é imbatível porque sua banda óptica é gigantesca e ela está perto (baixa latência); e
+      <b>(3)</b> o espectro é o ativo mais valioso do móvel — não à toa o leilão de 5G girou dezenas de bilhões.</p>
+  </div>
+
+  <h2 class="sec" data-since="1.1">Economics por onda: quanto custa cobrir 1 km² <span class="tag">o preço da cobertura</span></h2>
+  <p>A física das faixas vira <b>dinheiro</b> direto. Como o alcance cai com a frequência, cobrir a <b>mesma
+    área</b> exige <b>mais sites</b> quanto mais alta a banda — e cada site custa. Um modelo de ordem de grandeza
+    (premissas ao final) mostra o abismo de custo para cobrir <b>1 km²</b>:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tecnologia</th><th>Alcance / densidade</th><th>Por km²</th><th class="num">Custo unitário</th><th class="num">≈ R$/km²</th></tr></thead>
+      <tbody>
+        <tr><td><b>700 MHz</b> (macro)</td><td>célula ~5 km</td><td>~0,02 torre</td><td class="num">R$ 400 mil/torre</td><td class="num hlcell">~8 mil</td></tr>
+        <tr><td><b>2,3 GHz</b></td><td>célula ~2 km</td><td>~0,12 torre</td><td class="num">R$ 400 mil</td><td class="num">~50 mil</td></tr>
+        <tr><td><b>3,5 GHz</b> (5G)</td><td>célula ~1 km</td><td>~0,5 torre</td><td class="num">R$ 400 mil</td><td class="num">~200 mil</td></tr>
+        <tr><td><b>26 GHz</b> (mmWave)</td><td>célula ~0,2 km</td><td>~12 small cells</td><td class="num">R$ 50 mil/cél.</td><td class="num">~600 mil</td></tr>
+        <tr><td><b>FWA</b> (sobre 3,5 GHz)</td><td>usa a rede móvel</td><td>+ antena/casa</td><td class="num">CPE</td><td class="num">marginal*</td></tr>
+        <tr><td><b>FTTH</b> (urbano denso)</td><td>~4.000 domic./km²</td><td>passar cada casa</td><td class="num">R$ 250/domic.</td><td class="num hlcell">~1 milhão</td></tr>
+        <tr><td><b>Satélite LEO</b></td><td>cobre tudo do céu</td><td>zero infra no solo</td><td class="num">~R$ 3 mil/terminal</td><td class="num">~0/km²**</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <div class="chart" id="ch-cost-km2"></div>
+    <figcaption><span class="ti">Custo para cobrir 1 km² por tecnologia — R$ (escala logarítmica)</span>
+      Modelo de ordem de grandeza. Do 700 MHz (~R$ 8 mil) ao FTTH urbano (~R$ 1 milhão): um fator de ~125×. Escala log porque a faixa é enorme.</figcaption>
+  </figure>
+  <div class="callout insight">
+    <span class="mk">AS TRÊS ESTRUTURAS DE CUSTO</span>
+    <p><b>(1) Móvel — o custo escala com a FREQUÊNCIA.</b> É a fórmula de Friis virando conta: banda alta = célula
+      pequena = mais sites/km². O 700 MHz cobre 1 km² por ~R$ 8 mil; o 26 GHz custa ~75× mais. Por isso mmWave só
+      faz sentido em <b>hotspots</b> de altíssima demanda. <b>(2) Fibra — escala com a DENSIDADE de casas</b>, não
+      com a frequência: cara por km² onde há muita gente — mas é lá que está a receita. Por isso os ISPs foram
+      para as cidades e deixaram o rural. <b>(3) Satélite — custo INDEPENDENTE da área</b>: a constelação já cobre
+      tudo, o marginal por km² é ~zero. Vence no <b>rural esparso</b> (onde móvel e fibra custam fortunas por
+      usuário) e perde na cidade densa (a capacidade por célula satura). <b>Cada tecnologia tem o seu domínio
+      econômico</b> — e é a geografia da demanda que decide qual usar.</p>
+  </div>
+  <p class="src-note">Premissas do modelo (ordem de grandeza, não dado da Anatel): torre macro all-in R$ 400 mil
+    (rádio + civil + backhaul + instalação); small cell/mmWave R$ 50 mil; FTTH R$ 250 por domicílio passado; raio
+    de célula em cenário limitado por cobertura (suburbano); área da célula ≈ 0,65·π·r². Valores reais variam com
+    terreno, densidade e regime (cobertura × capacidade) — o objetivo é a <em>relação</em> entre tecnologias, não o número exato.</p>
+  <script>
+  CHARTS.push({id:'ch-cost-km2',fn:function(mount){
+    var NS='http://www.w3.org/2000/svg';
+    function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+    var C=window.__chartAPI.C;
+    var data=[
+      {l:'700 MHz (macro)',v:8000,c:C.mobile},
+      {l:'2,3 GHz',v:50000,c:C.mobile},
+      {l:'3,5 GHz (5G)',v:200000,c:C.accent},
+      {l:'26 GHz (mmWave)',v:600000,c:C.danger},
+      {l:'FTTH (urbano denso)',v:1000000,c:C.fiber}
+    ];
+    var W=680,rowH=44,padT=10,padB=30,labelW=160,valW=96,H=padT+padB+data.length*rowH;
+    var x0=labelW,x1=W-valW,plot=x1-x0;
+    var lmin=Math.log10(5000),lmax=Math.log10(1300000);
+    function X(v){return x0+plot*(Math.log10(v)-lmin)/(lmax-lmin);}
+    function money(v){return v>=1e6?('R$ '+(v/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi'):('R$ '+(v/1e3)+' mil');}
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img'});
+    [10000,100000,1000000].forEach(function(g){
+      var gx=X(g);
+      svg.appendChild(el('line',{x1:gx,y1:padT,x2:gx,y2:H-padB,stroke:'#eee7da','stroke-width':1}));
+      svg.appendChild(el('text',{x:gx,y:H-padB+16,'text-anchor':'middle','font-size':10.5,fill:'#9aa2ad','font-family':'IBM Plex Mono,monospace'},g>=1e6?'1 mi':(g/1000)+' mil'));
+    });
+    data.forEach(function(d,i){
+      var y=padT+i*rowH, cy=y+rowH/2, bw=X(d.v)-x0;
+      svg.appendChild(el('text',{x:x0-10,y:cy+4,'text-anchor':'end','font-size':12.5,'font-weight':600,fill:'#3a4150','font-family':'Inter,sans-serif'},d.l));
+      svg.appendChild(el('rect',{x:x0,y:y+7,width:Math.max(2,bw),height:rowH-16,rx:4,fill:d.c}));
+      svg.appendChild(el('text',{x:X(d.v)+8,y:cy+4,'font-size':12.5,'font-weight':600,fill:'#1b1f27','font-family':'IBM Plex Mono,monospace'},money(d.v)));
+    });
+    mount.innerHTML=''; mount.appendChild(svg);
+  }});
+  </script>
+
+  <h2 class="sec" data-since="1.1">O risco da internet por satélite <span class="tag">além do hype do Starlink</span></h2>
+  <p>O satélite LEO é a melhor notícia para o rural e a Amazônia em décadas — mas tratá-lo como "a solução de
+    tudo" ignora quatro riscos reais, do técnico ao geopolítico.</p>
+  <div class="cards c2">
+    <div class="card"><h4><span class="ico" style="background:var(--warn)">1</span>Teto de capacidade</h4><p>A capacidade de cada célula do céu é <b>finita e compartilhada</b>. Funciona onde há pouca gente; em área densa, <b>satura</b> — a velocidade cai conforme entram assinantes. Por física e economia, <b>não substitui a fibra</b> na cidade: é complemento de baixa densidade.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--warn)">2</span>Limites técnicos</h4><p>Mesmo o LEO tem <b>latência</b> maior que a fibra e sofre <span class="gl" data-def="Rain fade — atenuação do sinal por chuva, forte nas faixas Ku/Ka usadas por satélite">rain fade</span> (chuva degrada o sinal nas faixas Ku/Ka). O terminal custa caro e consome energia — barreira no lugar exato onde ele seria mais útil.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--danger)">3</span>Órbita &amp; detritos</h4><p>Mega-constelações (o Starlink já passa de <b>7 mil satélites</b>, com planos de dezenas de milhares) adensam a órbita baixa: <b>risco de colisão</b> e a temida <span class="gl" data-def="Síndrome de Kessler — cascata de colisões em órbita que gera detritos que causam mais colisões, podendo inutilizar faixas orbitais">síndrome de Kessler</span> (cascata de detritos), além de interferência na <b>astronomia</b>.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--danger)">4</span>Soberania &amp; dependência</h4><p>O Starlink é <b>uma empresa estrangeira privada</b> (SpaceX). Depender dele para conectividade crítica/rural é ceder <b>controle</b> — preço, acesso e até desligamento — a um ator fora da jurisdição nacional. A Anatel <b>licencia</b>, mas não controla a constelação. O <b>precedente da Ucrânia</b> (acesso alavancado politicamente pelo operador) mostrou o risco na prática.</p></div>
+  </div>
+  <div class="callout danger">
+    <span class="mk">A LEITURA EQUILIBRADA</span>
+    <p>O LEO é <b>essencial</b> para a última fronteira — os 475 municípios e a zona rural que a fibra não
+      alcança. Mas é uma <b>ferramenta complementar</b>, não a espinha dorsal: tem teto de capacidade para
+      densidade e carrega <b>risco estratégico de dependência</b> de um fornecedor único e estrangeiro. A resposta
+      madura é <b>redundância</b> — usar o satélite onde ele brilha, seguir puxando fibra e backhaul terrestre, e
+      manter alternativas (outras constelações, backbone nacional) para não ficar refém. Conectividade crítica
+      não deveria ter <b>ponto único de falha</b> — muito menos um controlado de fora.</p>
+  </div>
+
+  <h2 class="sec" data-since="1.2">Como o satélite entrega internet — usuário × gateway <span class="tag">didático</span></h2>
+  <p>Um satélite Starlink <b>não guarda a internet</b> — ele é um <b>espelho no céu</b>, um repetidor. Todo pacote
+    faz o mesmo caminho de ida e volta, passando por <b>dois rádios completamente separados</b>, em faixas
+    diferentes para não interferirem um no outro:</p>
+  <figure>
+    <svg viewBox="0 0 900 350" role="img" aria-label="Enlace do usuário (Ku), enlace de gateway (Ka) e Direct to Cell" style="width:100%;height:auto;max-width:880px;display:block;margin:0 auto;font-family:'Inter',system-ui,sans-serif">
+      <defs>
+        <marker id="ah-ku" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1f5f9e"/></marker>
+        <marker id="ah-ka" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1f8b6f"/></marker>
+        <marker id="ah-fib" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9aa2ad"/></marker>
+        <marker id="ah-d2d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b07b1f"/></marker>
+      </defs>
+      <line x1="20" y1="300" x2="880" y2="300" stroke="#e7e2d8" stroke-width="2"/>
+      <!-- satélite -->
+      <g>
+        <rect x="316" y="56" width="46" height="28" rx="3" fill="#5b7fb0"/>
+        <rect x="438" y="56" width="46" height="28" rx="3" fill="#5b7fb0"/>
+        <line x1="362" y1="70" x2="374" y2="70" stroke="#8a95a3" stroke-width="2"/>
+        <line x1="426" y1="70" x2="438" y2="70" stroke="#8a95a3" stroke-width="2"/>
+        <rect x="372" y="50" width="56" height="40" rx="6" fill="#1b1f27"/>
+        <path d="M392 90 L408 90 L400 104 z" fill="#1b1f27"/>
+        <text x="400" y="34" text-anchor="middle" font-size="12.5" font-weight="650" fill="#1b1f27">Satélite LEO — repetidor (~550 km)</text>
+      </g>
+      <!-- casa do usuário -->
+      <g>
+        <path d="M84 250 L166 250 L125 214 z" fill="#c48f2f"/>
+        <rect x="92" y="250" width="66" height="46" fill="#d8d2c5"/>
+        <rect x="116" y="268" width="18" height="28" fill="#b6ad9c"/>
+        <circle cx="150" cy="220" r="9" fill="#fff" stroke="#1f5f9e" stroke-width="2"/>
+        <line x1="150" y1="220" x2="150" y2="234" stroke="#1f5f9e" stroke-width="2"/>
+        <text x="125" y="318" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a4150">Sua antena (prato)</text>
+      </g>
+      <!-- celular D2D -->
+      <g>
+        <rect x="206" y="256" width="26" height="42" rx="5" fill="#1b1f27"/>
+        <rect x="210" y="262" width="18" height="26" rx="2" fill="#b07b1f"/>
+        <text x="219" y="318" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a4150">Celular (D2C)</text>
+      </g>
+      <!-- gateway -->
+      <g>
+        <rect x="706" y="248" width="14" height="48" fill="#b6ad9c"/>
+        <circle cx="713" cy="236" r="16" fill="#fff" stroke="#1f8b6f" stroke-width="2.4"/>
+        <line x1="713" y1="236" x2="713" y2="252" stroke="#1f8b6f" stroke-width="2"/>
+        <text x="713" y="318" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a4150">Gateway (estação terrena)</text>
+      </g>
+      <!-- internet -->
+      <g>
+        <circle cx="800" cy="112" r="20" fill="#eef2f6" stroke="#cdd6df"/>
+        <circle cx="826" cy="100" r="26" fill="#eef2f6" stroke="#cdd6df"/>
+        <circle cx="852" cy="114" r="18" fill="#eef2f6" stroke="#cdd6df"/>
+        <rect x="792" y="104" width="66" height="22" fill="#eef2f6"/>
+        <text x="826" y="112" text-anchor="middle" font-size="12" font-weight="650" fill="#3a4150">Internet</text>
+      </g>
+      <!-- enlaces -->
+      <line x1="152" y1="210" x2="378" y2="88" stroke="#1f5f9e" stroke-width="2.4" marker-start="url(#ah-ku)" marker-end="url(#ah-ku)"/>
+      <text x="238" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#1f5f9e" style="paint-order:stroke;stroke:#fff;stroke-width:4px">Ku · enlace do usuário</text>
+      <line x1="422" y1="88" x2="700" y2="222" stroke="#1f8b6f" stroke-width="2.4" marker-start="url(#ah-ka)" marker-end="url(#ah-ka)"/>
+      <text x="576" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#1f8b6f" style="paint-order:stroke;stroke:#fff;stroke-width:4px">Ka · enlace de gateway</text>
+      <line x1="728" y1="228" x2="792" y2="132" stroke="#9aa2ad" stroke-width="2" marker-end="url(#ah-fib)"/>
+      <text x="792" y="188" text-anchor="middle" font-size="11" font-weight="600" fill="#6b7480" style="paint-order:stroke;stroke:#fff;stroke-width:4px">fibra</text>
+      <line x1="230" y1="262" x2="382" y2="96" stroke="#b07b1f" stroke-width="2.2" stroke-dasharray="6 5" marker-start="url(#ah-d2d)" marker-end="url(#ah-d2d)"/>
+      <text x="330" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#b07b1f" style="paint-order:stroke;stroke:#fff;stroke-width:4px">banda da operadora (~1,9 GHz)</text>
+    </svg>
+    <figcaption><span class="ti">O caminho de um pacote: casa → satélite → gateway → internet (e volta)</span>
+      O satélite é só o elo do meio. O <b>enlace do usuário</b> (azul, Ku) liga sua antena ao satélite; o
+      <b>enlace de gateway</b> (verde, Ka) liga o satélite a uma estação terrena plugada na fibra. O
+      <b>Direct to Cell</b> (tracejado, laranja) é um terceiro caminho: o celular comum fala direto com o satélite
+      usando a <em>faixa da operadora</em> — por isso exige parceria com uma tele.</figcaption>
+  </figure>
+  <div class="cards c2">
+    <div class="card"><h4><span class="ico" style="background:#1f5f9e">Ku</span>Enlace do usuário</h4><p>É a <b>"última milha vinda do céu"</b>: o rádio entre a <b>sua antena (prato)</b> e o satélite. É por aqui que a sua casa recebe e envia dados. Usa a <b>banda Ku</b> (~10,7–12,7 GHz na descida, ~14 GHz na subida) — a mesma família de frequência da TV por satélite. Milhões de assinantes dividem essa faixa, célula por célula do céu.</p></div>
+    <div class="card"><h4><span class="ico" style="background:#1f8b6f">Ka</span>Enlace de gateway (feeder)</h4><p>É a <b>"entrada para a internet"</b>: o rádio entre o satélite e uma <b>grande estação terrena</b> (o <em>gateway</em>), que está fisicamente conectada ao <b>backbone de fibra</b>. Poucos gateways, cada um com antenas enormes, na <b>banda Ka</b> (~17,8–20 GHz na descida, ~27,5–30 GHz na subida). É o "tronco" que junta o tráfego de muitos usuários.</p></div>
+  </div>
+  <p>Por que <b>bandas diferentes</b> (Ku para você, Ka para o gateway)? Para os dois enlaces <b>não se
+    atrapalharem</b> — se usassem a mesma frequência no mesmo satélite, um sinal cegaria o outro. Nos satélites
+    mais novos (Gen2) há ainda <b>lasers ópticos entre satélites</b>, que dispensam o gateway em algumas rotas
+    (o pacote "pula" de satélite em satélite até achar um gateway) — mas o princípio dos dois enlaces de rádio
+    continua. É por isso também que <b>chuva forte degrada tudo</b>: Ku e Ka são justamente as faixas mais
+    sensíveis ao <span class="gl" data-def="Rain fade — atenuação do sinal por chuva, mais forte quanto maior a frequência (Ku/Ka/V)">rain fade</span>.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Enlace / uso</th><th>Sentido</th><th class="num">Faixa</th><th>Banda</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="2"><b>Usuário</b> (sua antena ↔ satélite)</td><td>satélite → você (download)</td><td class="num">~10,7–12,7 GHz</td><td rowspan="2">Ku</td></tr>
+        <tr><td>você → satélite (upload)</td><td class="num">~14,0–14,5 GHz</td></tr>
+        <tr><td rowspan="2"><b>Gateway</b> (satélite ↔ estação terrena)</td><td>satélite → gateway (download)</td><td class="num">~17,8–20,2 GHz</td><td rowspan="2">Ka</td></tr>
+        <tr><td>gateway → satélite (upload)</td><td class="num">~27,5–30 GHz</td></tr>
+        <tr><td><b>Gateway Gen2</b> (só EUA, aprovado)</td><td>ambos</td><td class="num">71–76 / 81–86 GHz</td><td>E</td></tr>
+        <tr><td><b>Expansão Gen2</b> (V-band)</td><td>ambos</td><td class="num">37,5–42,5 / 47–51 GHz</td><td>V</td></tr>
+        <tr class="hlrow"><td><b>Direct to Cell</b> (celular ↔ satélite)</td><td>ambos</td><td class="num">faixa móvel da operadora (~0,7–2 GHz)</td><td>via parceria</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sec" data-since="1.2">A frequência do Starlink: muita banda, mas não atravessa parede <span class="tag">o preço do Ku/Ka</span></h2>
+  <p>Toda escolha de frequência é um <b>trade-off</b>. As faixas <b>baixas</b> (as do rádio FM, do 700 MHz do
+    celular) <b>atravessam paredes e contornam obstáculos</b>, mas têm <b>pouca banda</b>. As faixas <b>altas</b>
+    (Ku ~12 GHz e Ka ~20–30 GHz, as do Starlink) são o oposto: <b>oceanos de espectro</b> — e por isso
+    <b>centenas de Mbps</b> — mas <b>propagação teimosa</b>. O Starlink <b>escolheu a banda e pagou em
+    penetração</b>.</p>
+  <div class="cards c3">
+    <div class="card"><h4><span class="ico" style="background:#1f8b6f">✓</span>Por que escolheram</h4><p><b>Banda larga de verdade.</b> Nas faixas altas há <b>GHz de espectro livre</b> — por Shannon (C = B·log₂(1+S/N)), muita banda <em>B</em> vira muita velocidade. E o <b>ganho ∝ área/λ²</b>: com onda de ~2,5 cm, um prato pequeno já tem ganho enorme. Muita banda <em>e</em> antena compacta.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--danger)">✕</span>Por que não penetra</h4><p>Onda curta <b>quase não difrata</b> — não contorna nem atravessa. <b>Parede, telhado e folhagem</b> (folha molhada é quase opaca) bloqueiam. Exige <b>linha de visada</b> com o céu. É por isso que o prato vai <b>no telhado, apontado para cima</b> — nunca na sala.</p></div>
+    <div class="card"><h4><span class="ico" style="background:var(--warn)">☂</span>E a chuva (rain fade)</h4><p>A gota de chuva tem <b>~alguns milímetros</b> — perto do comprimento de onda do Ku/Ka —, então <b>espalha e absorve</b> o sinal. <b>Ka sofre mais que Ku</b> (frequência maior). Temporal derruba a velocidade; garoa quase não afeta.</p></div>
+  </div>
+  <div class="callout insight">
+    <span class="mk">É O MESMO MOTIVO DE O D2C USAR FAIXA BAIXA</span>
+    <p>O contraste fecha o raciocínio: o <b>Direct to Cell</b> usa ~<b>1,9 GHz</b> justamente porque essa faixa
+      <b>atravessa parede e chega no bolso</b> — mas aí a banda é estreita (dá para texto, não banda larga). O
+      prato Ku é o inverso: <b>muita banda, mas exigindo o céu limpo lá fora</b>. Não existe faixa que faça as
+      duas coisas — é <b>penetrar</b> <em>ou</em> <b>ter banda</b>. Física, não engenharia.</p>
+  </div>
+
+  <h2 class="sec" data-since="1.2">Energia da antena: por que o prato pesa — e o sonho do handset <span class="tag">link budget</span></h2>
+  <p>Receber o sinal, em si, quase não custa energia. O que custa é <b>rastrear</b> o satélite (o array inteiro
+    ativo, reapontando o feixe a cada instante), <b>transmitir</b> o uplink e rodar um <b>modem de banda larga</b>.
+    Por isso o prato Standard puxa <b>~50–75 W</b> e mesmo a Mini fica em <b>~17 W</b> — enquanto um celular só
+    dissipa <b>~3–6 W</b> sustentados antes de fritar. A pergunta "cabe num handset?" é, no fundo, um problema de
+    <b>orçamento de link</b>.</p>
+  <div class="formula">
+    <div class="cap">Equação de Friis — quanto sinal chega ao terminal</div>
+    <div class="eq"><em>P</em><sub>r</sub> = <em>P</em><sub>t</sub> · <em>G</em><sub>t</sub> · <em>G</em><sub>r</sub> · <span class="frac"><span class="n">λ</span><span>4π<em>d</em></span></span><sup>2</sup></div>
+    <dl>
+      <dt>P<sub>r</sub></dt><dd>potência que chega no terminal (quanto maior, mais dados)</dd>
+      <dt>G<sub>t</sub>, G<sub>r</sub></dt><dd>ganho da antena do satélite e do terminal — e <b>ganho ∝ área da antena</b></dd>
+      <dt>λ, d</dt><dd>comprimento de onda (∝ 1/frequência) e distância até o satélite</dd>
+    </dl>
+    <p>O handset tem <em>G</em><sub>r</sub> minúsculo (antena de bolso). Para fechar o link, ele precisa compensar de
+      três jeitos: mais <em>G</em><sub>t</sub> (satélite gigante), <b>λ maior</b> (frequência menor) ou <b>exigir
+      menos <em>P</em><sub>r</sub></b> (menos dados — via Shannon). O D2C usa <b>os três ao mesmo tempo</b>.</p>
+  </div>
+  <h3 class="sub">O mesmo enlace, dois terminais — o orçamento em dB</h3>
+  <p>O que cada terminal precisa para alcançar o satélite (ordens de grandeza ilustrativas, distância ~550 km):</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Fator (para alcançar o satélite)</th><th>Prato Ku (banda larga)</th><th>Handset D2C</th><th class="num">Δ p/ o handset</th></tr></thead>
+      <tbody>
+        <tr><td>Ganho da antena do <b>terminal</b></td><td>~35 dBi (~0,15 m²)</td><td>~0 dBi (bolso)</td><td class="num">−35 dB</td></tr>
+        <tr><td>Perda de percurso (FSPL)</td><td>12 GHz → ~169 dB</td><td>1,9 GHz → ~153 dB</td><td class="num">+16 dB</td></tr>
+        <tr><td>S/N exigido (Shannon)</td><td>~100 Mbps</td><td>~texto (kbps)</td><td class="num">+~40 dB</td></tr>
+        <tr><td>Abertura do <b>satélite</b></td><td>feixe para o prato</td><td>array gigante (~25 m²)</td><td class="num">+dezenas</td></tr>
+        <tr class="hlrow"><td><b>Resultado</b></td><td>centenas de Mbps</td><td><b>texto / voz fina</b></td><td class="num">link fecha</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Lê-se assim: o handset <b>perde ~35 dB</b> de antena, mas <b>recupera ~16 dB</b> indo para 1,9 GHz e <b>~40 dB</b>
+    pedindo só texto — e o <b>satélite gigante fecha o resto</b>. É por isso que o D2C entrega SMS, não banda larga:
+    não é limitação de software, é o balanço de dB.</p>
+  <div class="callout insight">
+    <span class="mk">MAIS SATÉLITES → VIRA HANDSET DE BANDA LARGA?</span>
+    <p>Densificar a constelação (mais satélites, mais baixos e maiores) <b>ajuda o terminal</b> de duas formas:
+      sempre há um satélite <b>mais alto no céu</b> (ângulo de elevação maior = menos distância e menos atmosfera) e
+      os <b>satélites V2</b> entregam mais sinal ao solo. Foi isso — somado ao firmware cortando o <em>duty cycle</em>
+      de transmissão — que derrubou a Mini para ~17 W, <b>trocando um pouco de throughput por tamanho</b>. Mas isso
+      <b>encolhe o terminal, não o transforma em celular</b>: os três muros (abertura para banda larga, térmica de
+      bolso e o uplink) <b>não somem com mais satélites</b>. A trajetória converge em (a) terminais de banda larga
+      cada vez menores, porém <b>nunca de bolso</b>, e (b) um <b>D2C cada vez melhor</b> no telefone que você já tem
+      (texto → voz → dados leves). O ganho da constelação é <b>"sacado" no lado do D2C</b> — não virando o prato num
+      handset.</p>
+  </div>
+
+  <h3 class="sub" data-since="1.2">O que a evolução NÃO resolve</h3>
+  <p>Duas objeções naturais: se a <b>bateria</b> melhora e o <b>número de satélites</b> só cresce, o handset de
+    banda larga não vem com o tempo? Não — porque os limites que travam não são os que evoluem.</p>
+  <div class="cards c2">
+    <div class="card"><h4>Bateria ou térmica?</h4><p>A <b>bateria é energia</b> (Wh) — melhora com a tecnologia e, no limite, dá para levar um power bank. O muro é a <b>térmica</b>, que é <b>potência</b> (W): um corpo de bolso só dissipa <b>~3–6 W</b> sustentados (<b>Q = h·A·ΔT</b> — área e temperatura de pele são fixas), e <b>isso não melhora com bateria nenhuma</b>. A Mini a 17 W já é uma panela. Só quando a potência exigida cair para ~5 W caberia num celular — e o gargalo <em>ainda</em> seria o calor, não a carga.</p></div>
+    <div class="card"><h4>Piso da antena (∞ satélites)</h4><p>Com infinitos satélites o prato <b>não vai a zero</b>. O piso é fixado pela <b>frequência</b> e pelo <b>ruído/regulação</b> (limite de PFD da UIT + ruído térmico kTB) e pela <b>resolução para reusar espectro</b> — <b>não pelo nº de satélites</b> (que pode até exigir <em>mais</em> resolução). O único botão para encolher a antena é <b>subir a frequência</b> (em E-band, ~8–10 cm para o mesmo ganho — refém da chuva). Bolso, só baixando a taxa de dados: o D2C.</p></div>
+  </div>
+
+  <h2 class="sec" data-since="1.2">Direct to Cell: o satélite virando antena de celular <span class="tag">quem já é parceiro</span></h2>
+  <p>O <b>Direct to Cell</b> (D2C, ou "direto no celular") é a virada: em vez de um prato, o <b>seu smartphone comum</b>
+    fala direto com o satélite — que se comporta como uma <b>torre de celular no espaço</b>. O truque é que o
+    satélite <b>não tem faixa de celular própria</b>: ele transmite na <b>frequência móvel licenciada de uma
+    operadora local</b>. Por isso o D2C <b>só existe casado com uma tele</b> — a SpaceX "empresta" o espectro do
+    parceiro para cobrir as zonas mortas onde não há torre.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>País</th><th>Operadora parceira</th><th>Status (2026)</th></tr></thead>
+      <tbody>
+        <tr><td>Estados Unidos</td><td><b>T-Mobile</b> (usa a faixa PCS ~1,9 GHz)</td><td><span class="pill low">Comercial</span> — texto ao vivo; voz/dados em rollout</td></tr>
+        <tr><td>Nova Zelândia</td><td><b>One NZ</b></td><td><span class="pill low">Comercial</span></td></tr>
+        <tr><td>Canadá</td><td>Rogers</td><td><span class="pill mid">Lançamento/testes</span></td></tr>
+        <tr><td>Austrália</td><td>Optus</td><td><span class="pill mid">Testes</span></td></tr>
+        <tr><td>Japão</td><td>KDDI (au)</td><td><span class="pill mid">Testes</span></td></tr>
+        <tr><td>Suíça</td><td>Salt</td><td><span class="pill mid">Anunciado</span></td></tr>
+        <tr><td>Chile / Peru</td><td>Entel</td><td><span class="pill mid">Testes</span></td></tr>
+        <tr><td>Ucrânia</td><td>Kyivstar</td><td><span class="pill mid">Anunciado</span></td></tr>
+        <tr class="crisisrow"><td><b>Brasil</b></td><td><b>nenhuma ainda</b></td><td><span class="pill high">Sem parceria</span> — Vivo/Claro/TIM não assinaram</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="mk">O CASO BRASIL — POR QUE NINGUÉM ASSINOU</span>
+    <p>Até jul/2026 <b>nenhuma operadora brasileira</b> fechou D2C com a SpaceX. As incumbentes têm um dilema: o
+      Direct to Cell é ao mesmo tempo um <b>tapa-buraco de cobertura</b> (útil onde não há torre) e um
+      <b>concorrente potencial</b> (a SpaceX poderia falar direto com o cliente). Por isso <b>Claro e TIM testam
+      rivais</b> da SpaceX — a <b>AST SpaceMobile</b> e a <b>Lynk</b> —, preservando o controle sobre a relação com
+      o assinante. A Anatel aprovou o <b>marco de faixas para D2D</b> (2/jul/2026), mas a regra é clara: o serviço
+      é uma <b>camada extra da rede móvel</b>, sempre sobre o espectro de uma tele já autorizada. Lançamento
+      comercial esperado só entre o <b>fim de 2026 e início de 2027</b>.</p>
+  </div>
+
+  <h2 class="sec" data-since="1.1">Anatomia da rede — do seu dispositivo ao conteúdo <span class="tag">como a rede funciona</span></h2>
+  <p>Quando você abre um vídeo, o pedido <b>atravessa camadas</b> — da última milha ao backbone e de volta com o
+    conteúdo. Cada camada tem uma função, um custo e um gargalo. Entender esse caminho é entender <em>onde</em>
+    está o valor da rede (e por que a briga é para subir nela).</p>
+  <div class="flywheel-wrap"><div id="net-arch"></div></div>
+  <div class="cards c3">
+    <div class="card"><h4>Última milha (acesso)</h4><p>O trecho até você: a fibra do <b>ONT</b> (sua casa) ao <b>OLT</b> (central), ou o rádio da antena (<b>ERB</b>) ao site. É o mais caro por bit — capilaridade — e onde os ISPs competem porta a porta.</p></div>
+    <div class="card"><h4>Backhaul</h4><p>Liga cada site de acesso (OLT, torre) de volta à agregação. <b>Fibra</b> (ideal) ou <b>micro-ondas</b> onde não há fibra. O 5G exige backhaul gordo — cada antena joga muito tráfego para trás.</p></div>
+    <div class="card"><h4>Fronthaul (5G)</h4><p>Dentro do site, entre a <b>antena/rádio</b> e o <b>processamento (banda-base)</b> — CPRI/eCPRI. Centralizar esse processamento (C-RAN) é o que habilita o <b>Open RAN</b>.</p></div>
+    <div class="card"><h4>Agregação / Metro</h4><p>Concentra o tráfego de muitos sites numa cidade, em <b>anéis de fibra metropolitanos</b>. É onde entram os primeiros caches e pontos de troca.</p></div>
+    <div class="card"><h4>Core</h4><p>O cérebro: <b>roteamento</b>, autenticação, cobrança e as funções de rede — hoje <b>virtualizadas em software</b> (NFV), rodando em data centers. No 5G SA, o núcleo 5G próprio.</p></div>
+    <div class="card"><h4>Backbone</h4><p>As rodovias: fibra de <b>longa distância</b> entre cidades e países, com <span class="gl" data-def="Dense Wavelength Division Multiplexing — dezenas de comprimentos de onda (cores de luz) na mesma fibra, multiplicando a capacidade para Tbps">DWDM</span> (dezenas de "cores de luz" numa fibra = Tbps). Inclui os <b>cabos submarinos</b> internacionais.</p></div>
+  </div>
+
+  <h3 class="sub" data-since="1.1">Backbone e cabos submarinos</h3>
+  <p>O backbone nacional interliga as capitais; os <b>cabos submarinos</b> ligam o Brasil ao mundo — e quase todo
+    o tráfego internacional passa por eles (satélite é marginal aqui). A rota histórica para os EUA aterra em
+    <b>Fortaleza</b> (e Rio); o <b>EllaLink</b> (2021) ligou <b>Fortaleza a Portugal</b> direto, cortando a
+    latência para a Europa. Fortaleza virou o <b>hub de cabos submarinos da América do Sul</b>. Cada par de fibra,
+    com DWDM, carrega <b>dezenas de terabits por segundo</b> — e a V.tal/GlobeNet e outras operam esses ativos de atacado.</p>
+
+  <h3 class="sub" data-since="1.1">Data centers e a borda (edge)</h3>
+  <div class="cards c2">
+    <div class="card"><h4>Hyperscale</h4><p>Os data centers gigantes onde mora a nuvem (AWS, Google, Azure, Meta). Concentram compute e conteúdo; ficam em poucos locais e puxam muito tráfego.</p></div>
+    <div class="card"><h4>Colocation / neutros</h4><p>Espaço alugado para quem não quer data center próprio (Equinix, Ascenty, e a <b>Tecto/V.tal</b>). Onde as redes se encontram fisicamente.</p></div>
+    <div class="card"><h4>Edge (borda)</h4><p>Data centers <b>pequenos e perto do usuário</b>. A baixa latência do 5G SA só rende se o processamento estiver perto — daí o edge. É uma nova fronteira de investimento (V.tal, hyperscalers).</p></div>
+    <div class="card"><h4>Funções virtualizadas (NFV)</h4><p>O "core" da operadora deixou de ser caixas dedicadas e virou <b>software</b> em data centers. Flexível, escalável — e o que torna o Open RAN e o network slicing possíveis.</p></div>
+  </div>
+
+  <h3 class="sub" data-since="1.1">CDN e cache — por que o conteúdo mora perto de você</h3>
+  <p>A maior parte do tráfego é <b>vídeo</b> (Netflix, YouTube, etc.). Buscar cada vídeo lá longe (num data center
+    nos EUA) seria lento e caríssimo. Por isso as <b><span class="gl" data-def="Content Delivery Network — rede de servidores que guarda cópias do conteúdo perto dos usuários">CDN</span>s</b> guardam cópias
+    <b>cacheadas</b> perto de você — muitas vezes <b>dentro da rede do próprio ISP</b>. O <b>Netflix Open Connect</b>,
+    o <b>Google Global Cache (GGC)</b>, a Cloudflare e a Akamai instalam servidores de cache no ISP e nos pontos de
+    troca. Ganhos: <b>latência menor</b>, melhor experiência e — crucial — <b>muito menos tráfego</b> no backbone e
+    nos cabos internacionais caros. É por isso que um ISP pequeno entrega Netflix em 4K sem pagar
+    <span class="gl" data-def="Trânsito IP — quando você paga um provedor maior para levar seu tráfego a qualquer destino da internet">transit</span> caro:
+    o conteúdo já está <b>cacheado on-net</b>. É o "atalho" verde do diagrama.</p>
+
+  <h3 class="sub" data-since="1.1">IX.br e peering — por que o Brasil é um caso à parte</h3>
+  <p>Como o tráfego passa de uma rede para outra? Dois modos: <b>transit</b> (você paga um provedor maior para
+    alcançar qualquer destino) ou <b><span class="gl" data-def="Peering — duas redes trocam tráfego diretamente entre si, em geral sem cobrança, num ponto de troca">peering</span></b> (duas
+    redes trocam tráfego <b>direto e de graça</b> num ponto de troca). O Brasil tem o <b>IX.br</b> (o PTT, operado
+    pelo NIC.br), e o <b>IX.br de São Paulo é um dos maiores pontos de troca de tráfego do mundo</b> — dezenas de
+    Tbps. O efeito é enorme: mantém o tráfego <b>local</b> (não precisa ir aos EUA e voltar), <b>derruba a
+    latência</b> e <b>corta o custo de transit</b>. Foi um dos alicerces silenciosos que <b>barateou a internet</b>
+    no Brasil e viabilizou os milhares de ISPs.</p>
+  <div class="callout insight">
+    <span class="mk">O QUE ISSO EXPLICA</span>
+    <p>Junte as peças: <b>IX.br</b> + <b>caches on-net</b> (Open Connect, GGC) + <b>backhaul de fibra barato</b>
+      (PON) são o que permite um provedor de bairro entregar internet boa e barata sem ser uma gigante. É a
+      infraestrutura invisível por trás do boom dos ISPs. E a disputa por valor está justamente em <b>quem
+      controla essas camadas</b> — backbone, cabos submarinos, IXP, CDN, data centers de borda. De novo: a
+      conexão pura comoditiza, e o valor <b>sobe</b> para a infraestrutura que a orquestra (a rede neutra V.tal, os data centers).</p>
+  </div>
+  <script>
+  CHARTS.push({id:'net-arch',fn:function(mount){
+    var NS='http://www.w3.org/2000/svg';
+    function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+    var C=window.__chartAPI.C, W=940,H=350,bw=112,bh=78,by=96,gap=(W-bw)/5;
+    var boxes=[
+      {t:'Dispositivo',s:['celular · casa'],c:C.gray},
+      {t:'Acesso',s:['ONT/OLT · ERB'],c:C.mobile},
+      {t:'Agregação',s:['rede metro'],c:C.fiber},
+      {t:'Core',s:['roteamento · NFV'],c:C.pay},
+      {t:'Backbone',s:['DWDM · submarino'],c:C.fixed},
+      {t:'Internet',s:['nuvem · conteúdo'],c:C.ok}
+    ];
+    var seg=['última milha','backhaul','metro','backbone','IXP/peering'];
+    var xs=boxes.map(function(_,i){return i*gap;});
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img'});
+    var defs=el('defs',{}),m=el('marker',{id:'na',markerWidth:8,markerHeight:8,refX:6,refY:3,orient:'auto',markerUnits:'strokeWidth'});
+    m.appendChild(el('path',{d:'M0 0 L6 3 L0 6 Z',fill:'#8a94a2'}));defs.appendChild(m);svg.appendChild(defs);
+    var cy=by+bh/2;
+    for(var i=0;i<5;i++){
+      var x1=xs[i]+bw, x2=xs[i+1];
+      svg.appendChild(el('line',{x1:x1+3,y1:cy,x2:x2-4,y2:cy,stroke:'#c2cbbf','stroke-width':3,'marker-end':'url(#na)'}));
+      svg.appendChild(el('text',{x:(x1+x2)/2,y:cy-11,'text-anchor':'middle','font-size':10,fill:'#6b7480','font-family':'IBM Plex Mono,monospace','font-style':'italic'},seg[i]));
+    }
+    boxes.forEach(function(b,i){
+      svg.appendChild(el('rect',{x:xs[i],y:by,width:bw,height:bh,rx:11,fill:'#fff',stroke:b.c,'stroke-width':2.5}));
+      svg.appendChild(el('rect',{x:xs[i],y:by,width:bw,height:6,rx:3,fill:b.c}));
+      svg.appendChild(el('text',{x:xs[i]+bw/2,y:by+35,'text-anchor':'middle','font-size':14.5,'font-weight':700,fill:'#1b1f27','font-family':'Inter,sans-serif'},b.t));
+      b.s.forEach(function(ss,k){svg.appendChild(el('text',{x:xs[i]+bw/2,y:by+55+k*14,'text-anchor':'middle','font-size':11,fill:'#6b7480','font-family':'Inter,sans-serif'},ss));});
+    });
+    var cxb=xs[2], cyb=by+bh+56;
+    svg.appendChild(el('line',{x1:cxb+bw/2,y1:by+bh,x2:cxb+bw/2,y2:cyb,stroke:C.fiber,'stroke-width':2,'stroke-dasharray':'4 4'}));
+    svg.appendChild(el('rect',{x:cxb,y:cyb,width:bw,height:72,rx:11,fill:'#eef7f0',stroke:C.fiber,'stroke-width':2.5}));
+    svg.appendChild(el('rect',{x:cxb,y:cyb,width:bw,height:6,rx:3,fill:C.fiber}));
+    svg.appendChild(el('text',{x:cxb+bw/2,y:cyb+30,'text-anchor':'middle','font-size':13.5,'font-weight':700,fill:'#14563b','font-family':'Inter,sans-serif'},'CDN / Cache'));
+    ['conteúdo popular','servido AQUI —','não vai ao backbone'].forEach(function(ss,k){
+      svg.appendChild(el('text',{x:cxb+bw/2,y:cyb+46+k*12.5,'text-anchor':'middle','font-size':9.5,fill:'#3a4150','font-family':'Inter,sans-serif'},ss));
+    });
+    mount.innerHTML='';mount.appendChild(svg);
+  }});
+  </script>
+
+  <h2 class="sec" data-since="1.1">A fronteira tecnológica <span class="tag">o que vem</span></h2>
+  <div class="cards c2">
+    <div class="card"><h4>Satélite LEO — o disruptor rural</h4><p>Starlink (e futuros Kuiper/outros) resolvem os 475 municípios e a zona rural que a fibra não alcança. O dado da Anatel já mostra o VSAT/satélite subindo. Complementa — não substitui — a fibra urbana.</p></div>
+    <div class="card"><h4>Open RAN — diversificar a rede</h4><p>Desagregar hardware e software da rede de acesso para não depender de um só fornecedor (Huawei/Ericsson/Nokia). TIM e Vivo têm pilotos; agenda geopolítica além de técnica.</p></div>
+    <div class="card"><h4>Rede neutra &amp; atacado</h4><p>A fibra (V.tal, FiBrasil) e as torres (TowerCos) viram <em>infraestrutura compartilhada</em>: quem constrói a rede não é quem vende o serviço. Modelo asset-light que redefine as teses.</p></div>
+    <div class="card"><h4>Edge, data centers e 6G</h4><p>A baixa latência do 5G SA só rende com processamento perto do usuário (edge/data centers — Tecto/V.tal, hyperscalers). O 6G é pesquisa para ~2030.</p></div>
+  </div>
+  <div class="callout warn">
+    <span class="mk">A LEITURA</span>
+    <p>A tecnologia sempre <b>empurra o valor para cima da cadeia</b>. Conectividade pura (mais bits) vira
+      commodity — a fibra e o 5G comoditizam o acesso. O valor migra para <b>quem orquestra</b>: rede neutra
+      (infra), serviços digitais (B2B, cloud, IoT, segurança) e experiência. Por isso Vivo e TIM investem em
+      cloud/segurança/serviços financeiros, e a fibra pura vira jogo de escala e consolidação.</p>
+  </div>
+
+  <h2 class="sec" data-since="1.1">O flywheel do setor <span class="tag">o motor que gira</span></h2>
+  <p>Junte a física, a economia e a competição e emerge um <b>ciclo que se auto-reforça</b>. Cada volta do
+    volante torna o bit mais barato e a conectividade mais abundante — e a abundância comoditiza a conexão pura,
+    empurrando o valor para as camadas de cima. Quem gira esse volante mais rápido (escala, caixa, tecnologia) vence.</p>
+  <div class="flywheel-wrap"><div id="flywheel-tec"></div></div>
+  <div class="callout insight">
+    <span class="mk">COMO LER O VOLANTE</span>
+    <p>O motor é simples: <b>investir em rede → custo por bit cai → preço cai e uso explode → receita e escala
+      sobem → reinveste</b>. Mas a cada volta a <b>conectividade pura vira commodity</b> (no Brasil: fibra em
+      quase todo lugar, 1 GB a US$0,40), então o valor <b>migra para cima</b> — infraestrutura de atacado (rede
+      neutra, V.tal), serviços digitais (cloud, IoT, segurança, B2B) e convergência. Cada player pega um pedaço
+      do volante: os <b>ISPs</b> giram a escala da fibra; a <b>V.tal</b> é a infra compartilhada; <b>Vivo e TIM</b>
+      sobem para serviços. Quem ficar só vendendo bits fica preso na parte que comoditiza — e é aí que a margem
+      aperta.</p>
+  </div>
+  <script>
+  /* ---- Flywheel: um render genérico + registry de configs por aba ---- */
+  (function(){
+    var NS='http://www.w3.org/2000/svg';
+    function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+    var B='#1f5f9e',G='#1f8b6f',A='#b07b1f',P='#8a5fb0',D='#2f7d57',I='#3f9277',R2='#be3c34',GR='#7a828e';
+    window.FLYWHEELS={
+      'flywheel-overview':{center:['o motor','do setor'],nodes:[
+        {c:B,t:['Investe','em rede']},{c:G,t:['Cobertura','e qualidade']},{c:A,t:['Mais clientes','e uso']},
+        {c:P,t:['Receita','e escala']},{c:D,t:['Reinveste','(sobe a cadeia)']}]},
+      'flywheel-movel':{center:['o motor','do ARPU'],nodes:[
+        {c:B,t:['Migra','pré → pós']},{c:G,t:['ARPU','sobe']},{c:A,t:['Mais','caixa']},
+        {c:P,t:['Investe em','rede e marca']},{c:D,t:['Retém e','migra mais']}]},
+      'flywheel-fibra':{center:['por que os','ISPs venceram'],nodes:[
+        {c:G,t:['PON barateia','a fibra']},{c:I,t:['ISP cobre','a cidade']},{c:A,t:['Densidade,','take-up alto']},
+        {c:P,t:['Gera','caixa']},{c:B,t:['Adensa e','compra (M&A)']}]},
+      'flywheel-fixo':{center:['a espiral','do legado'],icon:'↺',iconColor:'#e0a93b',hub:'#3a2a15',ring:'#e7d3b0',nodes:[
+        {c:R2,t:['Cliente','cancela']},{c:A,t:['Menos','receita']},{c:GR,t:['Menos','investimento']},
+        {c:'#8a6210',t:['Pior proposta','de valor']}]},
+      'flywheel-regec':{center:['obrigação','vira','cobertura'],nodes:[
+        {c:B,t:['Leilão:','obrig. > caixa']},{c:G,t:['Operadora','constrói']},{c:A,t:['Mais usuários','e dados']},
+        {c:P,t:['Mais','receita']},{c:D,t:['Financia o','próximo ciclo']}]},
+      'flywheel-empresas':{center:['a máquina','de dividendos'],nodes:[
+        {c:B,t:['Oligopólio','de três']},{c:G,t:['Margem e','caixa fortes']},{c:A,t:['Dividendo','+ capex']},
+        {c:P,t:['Rede +','convergência']},{c:D,t:['Cliente de','valor retido']}]},
+      'flywheel-tec':{center:['conectividade','comoditiza →','valor sobe'],nodes:[
+        {c:B,t:['Investe em rede','fibra · 5G · PON']},{c:G,t:['Custo por bit','despenca']},{c:A,t:['Preço cai,','uso explode']},
+        {c:P,t:['Receita e','escala sobem']},{c:D,t:['Valor sobe:','infra + serviços']}]}
+    };
+    function draw(mount,cfg){
+      var nodes=cfg.nodes, N=nodes.length, W=760,H=580,cx=380,cy=290,R=190,nr=N>=6?64:74, step=360/N, trim=step*0.33;
+      var svg=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img'});
+      var defs=el('defs',{}), m=el('marker',{id:'fwh',markerWidth:9,markerHeight:9,refX:6.5,refY:3,orient:'auto',markerUnits:'strokeWidth'});
+      m.appendChild(el('path',{d:'M0 0 L7 3 L0 6 Z',fill:'#8a94a2'})); defs.appendChild(m); svg.appendChild(defs);
+      for(var i=0;i<N;i++){
+        var s=((-90+i*step)+trim)*Math.PI/180, e=((-90+(i+1)*step)-trim)*Math.PI/180;
+        var sx=cx+R*Math.cos(s),sy=cy+R*Math.sin(s),ex=cx+R*Math.cos(e),ey=cy+R*Math.sin(e);
+        svg.appendChild(el('path',{d:'M'+sx.toFixed(1)+' '+sy.toFixed(1)+' A '+R+' '+R+' 0 0 1 '+ex.toFixed(1)+' '+ey.toFixed(1),
+          fill:'none',stroke:cfg.ring||'#ccd4c8','stroke-width':6,'stroke-linecap':'round','marker-end':'url(#fwh)'}));
+      }
+      svg.appendChild(el('circle',{cx:cx,cy:cy,r:70,fill:cfg.hub||'#14202b'}));
+      svg.appendChild(el('text',{x:cx,y:cy-16,'text-anchor':'middle','font-size':30,fill:cfg.iconColor||'#5fd0a0','font-family':'Inter,sans-serif'},cfg.icon||'↻'));
+      (cfg.center||[]).forEach(function(t,k){
+        svg.appendChild(el('text',{x:cx,y:cy+8+k*15,'text-anchor':'middle','font-size':11.5,fill:'#c5d4df','font-family':'Inter,sans-serif','font-weight':k===0?600:400},t));
+      });
+      nodes.forEach(function(o,i){
+        var ang=(-90+i*step)*Math.PI/180, px=cx+R*Math.cos(ang), py=cy+R*Math.sin(ang);
+        svg.appendChild(el('circle',{cx:px,cy:py,r:nr,fill:'#fff',stroke:o.c,'stroke-width':3}));
+        svg.appendChild(el('circle',{cx:px,cy:py-nr,r:15,fill:o.c}));
+        svg.appendChild(el('text',{x:px,y:py-nr+5,'text-anchor':'middle','font-size':15,'font-weight':700,fill:'#fff','font-family':'IBM Plex Mono,monospace'},String(i+1)));
+        o.t.forEach(function(line,k){
+          svg.appendChild(el('text',{x:px,y:py+(k===0?-2:16),'text-anchor':'middle','font-size':k===0?(nr>=74?15:13.5):(nr>=74?13:12),
+            'font-weight':k===0?700:500,fill:k===0?'#1b1f27':'#3a4150','font-family':'Inter,sans-serif'},line));
+        });
+      });
+      mount.innerHTML=''; mount.appendChild(svg);
+    }
+    Object.keys(window.FLYWHEELS).forEach(function(id){
+      window.CHARTS.push({id:id,fn:function(m){draw(m,window.FLYWHEELS[id]);}});
+    });
+  })();
+  </script>
+
+  <h2 class="sec" data-since="1.1">Próximos passos <span class="tag">o que dá pra aprofundar</span></h2>
+  <p class="sec-sub">Ideias de continuação para esta aba.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Próximo passo</th><th>O que traria</th><th>Esforço</th></tr></thead>
+      <tbody>
+        <tr><td><b>5G por município/UF</b></td><td>Mapa da adoção de 5G (linhas 5G / total) por região — onde o 5G pegou</td><td><span class="pill mid">médio</span></td></tr>
+        <tr><td><b>Gerações móveis desde 2010</b></td><td>Estender a série de 2G→5G para os anos 2010–2018 (arquivos históricos de tecnologia)</td><td><span class="pill low">baixo</span></td></tr>
+        <tr><td><b>Satélite LEO no dado</b></td><td>Isolar o crescimento de VSAT/satélite (efeito Starlink) por município ao longo do tempo</td><td><span class="pill mid">médio</span></td></tr>
+        <tr><td><b>Velocidade por tecnologia</b></td><td>Cruzar tecnologia × velocidade contratada (a coluna "Faixa de Velocidade" existe no dado)</td><td><span class="pill mid">médio</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<script>
+CHARTS.push({id:'ch-movel-ger',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[
+    {label:'4G',color:A.C.mobile,data:[0,0.5,2.4,9.9,24.6,43.3,56.9,67.8,74.2,77.4,77.7,75.8,70.7,66.1,64.4]},
+    {label:'3G',color:A.C.warn,data:[22.6,37.5,53.8,60.1,50.6,36.6,23.6,18.9,14.2,11.3,9.7,8.1,6.6,5.5,5.1]},
+    {label:'5G',color:A.C.fiber,data:[0,0,0,0,0,0,0,0,0,0.5,2.3,8.0,15.2,21.5,23.9]},
+    {label:'2G',color:A.C.gray,data:[77.4,62.0,43.8,30.0,24.7,20.1,19.5,13.3,11.5,10.8,10.2,8.1,7.5,6.8,6.7]}],
+    {xLabels:['2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'],
+     min:0,max:85,everyOther:true,axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)}});}});
+CHARTS.push({id:'ch-fixo-tec',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[
+    {label:'Fibra (FTTH)',color:A.C.fiber,data:[30.7,46.5,59.0,66.2,70.6,73.6,75.9,77.5]},
+    {label:'Cabo (HFC)',color:A.C.pay,data:[28.2,25.7,21.9,19.5,17.7,15.9,14.3,13.8]},
+    {label:'xDSL (cobre)',color:A.C.fixed,data:[28.7,16.9,8.5,4.4,2.2,1.1,0.8,0.6]}],
+    {xLabels:['2019','2020','2021','2022','2023','2024','2025','2026'],
+     min:0,max:82,axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)}});}});
+CHARTS.push({id:'ch-op-movel',fn:function(m){var A=window.__chartAPI;
+  A.hbars(m,[
+    {label:'Vivo',value:37.9,color:A.C.vivo,bold:true},
+    {label:'Claro',value:33.2,color:A.C.claro},
+    {label:'TIM',value:22.4,color:A.C.tim},
+    {label:'ISPs/MVNOs',value:4.6,color:A.C.isp},
+    {label:'Oi',value:0.0,color:A.C.oi}],
+    {max:42,labelW:90,valFmt:function(v){return v.toFixed(1)+'%';}});}});
+CHARTS.push({id:'ch-op-bl',fn:function(m){var A=window.__chartAPI;
+  A.hbars(m,[
+    {label:'Vivo',value:15.1,color:A.C.vivo},
+    {label:'Claro',value:19.5,color:A.C.claro},
+    {label:'TIM',value:1.6,color:A.C.tim},
+    {label:'ISPs',value:55.2,color:A.C.isp,bold:true},
+    {label:'Oi',value:6.2,color:A.C.oi}],
+    {max:60,labelW:90,valFmt:function(v){return v.toFixed(1)+'%';}});}});
+CHARTS.push({id:'ch-bl-evol',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[
+    {label:'ISPs regionais',color:A.C.isp,data:[19.7,21.3,22.0,37.0,49.5,55.0,56.2]},
+    {label:'Oi',color:A.C.oi,data:[32.8,27.3,19.2,14.0,11.1,8.4,6.7]},
+    {label:'Claro',color:A.C.claro,data:[21.5,31.4,30.0,27.1,21.5,19.5,19.1]},
+    {label:'Vivo',color:A.C.vivo,data:[24.3,17.1,24.3,17.6,14.3,13.9,14.5]}],
+    {xLabels:['2010','2014','2018','2020','2022','2024','2025'],min:0,max:60,
+     axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)}});}});
+CHARTS.push({id:'ch-fibra-evol',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[{label:'Fibra %',color:A.C.fiber,data:[1.3,4.0,6.5,18.2,46.5,65.0,72.5,75.1]}],
+    {xLabels:['2012','2014','2016','2018','2020','2022','2024','2025'],min:0,max:82,everyOther:true,
+     axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)+'%'},legend:false});}});
+CHARTS.push({id:'ch-mob-evol',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[
+    {label:'Vivo',color:A.C.vivo,data:[32.9,33.6,32.9,38.9,38.6,38.8,38.1]},
+    {label:'Claro',color:A.C.claro,data:[24.0,25.7,27.7,33.0,33.9,33.1,33.1]},
+    {label:'TIM',color:A.C.tim,data:[24.0,22.0,20.4,24.8,23.9,23.6,22.9]},
+    {label:'Oi (partilhada 2022)',color:A.C.oi,data:[16.2,15.7,16.5,0,null,null,null]}],
+    {xLabels:['2019','2020','2021','2022','2023','2024','2025'],min:0,max:42,
+     axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)}});}});
+CHARTS.push({id:'ch-lider-mob',fn:function(m){var A=window.__chartAPI;
+  A.hbars(m,[
+    {label:'Vivo',value:52.3,color:A.C.vivo,bold:true},
+    {label:'Claro',value:26.4,color:A.C.claro},
+    {label:'TIM',value:20.6,color:A.C.tim},
+    {label:'Algar',value:0.6,color:A.C.muted}],
+    {max:56,labelW:70,valFmt:function(v){return v.toFixed(1)+'%';}});}});
+CHARTS.push({id:'ch-lider-bl',fn:function(m){var A=window.__chartAPI;
+  A.hbars(m,[
+    {label:'ISP local',value:95.8,color:A.C.isp,bold:true},
+    {label:'Sky (satél.)',value:1.8,color:A.C.pay},
+    {label:'Algar',value:0.7,color:A.C.muted},
+    {label:'Claro',value:0.7,color:A.C.claro},
+    {label:'Vivo',value:0.5,color:A.C.vivo}],
+    {max:100,labelW:80,valFmt:function(v){return v.toFixed(1)+'%';}});}});
+</script>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>Sobre este estudo</h4>
+        <p>Mapa de referência do setor de telecom brasileiro, construído a partir de fontes primárias.
+          Feito para ser lido <em>antes</em> de analisar as empresas da cadeia.</p>
+        <div class="badge-row">
+          <span class="badge">v1.2</span><span class="badge">5 jul 2026</span><span class="badge">dados: 2005–2026</span>
+        </div>
+      </div>
+      <div>
+        <h4>Fontes primárias</h4>
+        <p>Anatel (Painéis de Dados / Dados Abertos) · Conexis Brasil Digital · Teleco · CVM (ITR/DFP) ·
+          RI das companhias · ITU · OECD · GSMA Intelligence · Ookla.</p>
+      </div>
+      <div>
+        <h4>Método</h4>
+        <p>Gráficos em SVG inline, sem bibliotecas externas. Números reais; séries suavizadas por MM12
+          quando voláteis. Raciocínio de primeiros princípios, sem sell-side.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------------- Tabs ---------------- */
+(function(){
+  const tabs=[...document.querySelectorAll('.tab')];
+  const panels=[...document.querySelectorAll('.panel')];
+  const row=document.getElementById('tabrow');
+  if(row)row.setAttribute('role','tablist');
+  tabs.forEach(t=>{
+    t.setAttribute('role','tab');
+    t.id='tab-'+t.dataset.t;
+    t.setAttribute('aria-controls',t.dataset.t);
+    t.setAttribute('aria-selected',t.classList.contains('active')?'true':'false');
+  });
+  panels.forEach(p=>{
+    p.setAttribute('role','tabpanel');
+    p.setAttribute('aria-labelledby','tab-'+p.id);
+    p.setAttribute('tabindex','0');
+  });
+  function show(id,writeHash){
+    tabs.forEach(t=>{const on=t.dataset.t===id;t.classList.toggle('active',on);t.setAttribute('aria-selected',on?'true':'false');});
+    panels.forEach(p=>p.classList.toggle('active',p.id===id));
+    window.scrollTo({top:0,behavior:'instant'});
+    if(writeHash!==false)history.replaceState(null,'','#'+id);
+    if(window.__renderCharts) window.__renderCharts();
+  }
+  window.__showTab=show;
+  tabs.forEach((t,i)=>{
+    t.addEventListener('click',()=>show(t.dataset.t));
+    t.addEventListener('keydown',e=>{
+      if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+      e.preventDefault();
+      const n=(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length;
+      show(tabs[n].dataset.t);tabs[n].focus();
+    });
+  });
+})();
+
+/* ---------------- SVG chart helpers (no external lib) ---------------- */
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const fmt=n=>n.toLocaleString('pt-BR',{maximumFractionDigits:1});
+  function el(tag,attrs,txt){
+    const e=document.createElementNS(NS,tag);
+    for(const k in attrs)e.setAttribute(k,attrs[k]);
+    if(txt!=null)e.textContent=txt;
+    return e;
+  }
+  // Horizontal bar chart
+  function hbars(mount,data,opts){
+    opts=opts||{};
+    const W=opts.W||640, rowH=opts.rowH||34, padT=8, padB=8,
+          labelW=opts.labelW||150, valW=opts.valW||64,
+          H=padT+padB+data.length*rowH;
+    const max=opts.max||Math.max(...data.map(d=>d.value))*1.02;
+    const x0=labelW, x1=W-valW, plot=x1-x0;
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+    const ticks=opts.ticks||4;
+    for(let i=0;i<=ticks;i++){
+      const gx=x0+plot*i/ticks;
+      svg.appendChild(el('line',{x1:gx,y1:padT,x2:gx,y2:H-padB,stroke:'#eee7da','stroke-width':1}));
+    }
+    data.forEach((d,i)=>{
+      const y=padT+i*rowH, bw=Math.max(2,plot*d.value/max), cy=y+rowH/2;
+      svg.appendChild(el('text',{x:x0-10,y:cy+4,'text-anchor':'end',
+        'font-size':13,'font-weight':d.bold?700:500,fill:'#3a4150','font-family':'Inter,sans-serif'},d.label));
+      svg.appendChild(el('rect',{x:x0,y:y+5,width:bw,height:rowH-12,rx:4,fill:d.color||'#1f5f9e'}));
+      svg.appendChild(el('text',{x:x0+bw+8,y:cy+4,'font-size':12.5,'font-weight':600,
+        fill:'#1b1f27','font-family':'IBM Plex Mono,monospace'},opts.valFmt?opts.valFmt(d.value,d):fmt(d.value)));
+    });
+    mount.innerHTML='';mount.appendChild(svg);
+  }
+  // Vertical column chart (independent columns — no stacking)
+  function vcols(mount,data,opts){
+    opts=opts||{};
+    const W=opts.W||640,H=opts.H||260,padL=44,padR=12,padT=14,padB=34;
+    const max=opts.max||Math.max(...data.map(d=>d.value))*1.12;
+    const x0=padL,x1=W-padR,y0=H-padB,y1=padT,plotW=x1-x0,plotH=y0-y1;
+    const n=data.length,slot=plotW/n,bw=Math.min(opts.barW||48,slot*0.6);
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+    const ticks=opts.ticks||4;
+    for(let i=0;i<=ticks;i++){
+      const v=max*i/ticks,gy=y0-plotH*i/ticks;
+      svg.appendChild(el('line',{x1:x0,y1:gy,x2:x1,y2:gy,stroke:'#eee7da','stroke-width':1}));
+      svg.appendChild(el('text',{x:x0-8,y:gy+4,'text-anchor':'end','font-size':10.5,
+        fill:'#9aa2ad','font-family':'IBM Plex Mono,monospace'},opts.axisFmt?opts.axisFmt(v):fmt(v)));
+    }
+    data.forEach((d,i)=>{
+      const cx=x0+slot*(i+0.5),bh=plotH*d.value/max,y=y0-bh;
+      svg.appendChild(el('rect',{x:cx-bw/2,y:y,width:bw,height:Math.max(2,bh),rx:4,
+        fill:d.color||'#1f5f9e',opacity:d.faint?0.55:1}));
+      svg.appendChild(el('text',{x:cx,y:y-7,'text-anchor':'middle','font-size':12,'font-weight':600,
+        fill:'#1b1f27','font-family':'IBM Plex Mono,monospace'},opts.valFmt?opts.valFmt(d.value):fmt(d.value)));
+      svg.appendChild(el('text',{x:cx,y:y0+18,'text-anchor':'middle','font-size':12,
+        fill:'#6b7480','font-family':'Inter,sans-serif',
+        'font-weight':d.bold?700:400},d.label));
+      if(d.note)svg.appendChild(el('text',{x:cx,y:y0+31,'text-anchor':'middle','font-size':9.5,
+        fill:'#9aa2ad','font-family':'Inter,sans-serif'},d.note));
+    });
+    mount.innerHTML='';mount.appendChild(svg);
+  }
+  // Multi-line chart (independent series, never stacked)
+  function lines(mount,series,opts){
+    opts=opts||{};
+    const W=opts.W||660,H=opts.H||280,padL=46,padR=58,padT=16,padB=30;
+    const xs=opts.xLabels, n=xs.length;
+    const max=opts.max||Math.max(...series.flatMap(s=>s.data))*1.1;
+    const min=opts.min||0;
+    const x0=padL,x1=W-padR,y0=H-padB,y1=padT,pw=x1-x0,ph=y0-y1;
+    const X=i=>x0+pw*i/(n-1), Y=v=>y0-ph*(v-min)/(max-min);
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+    const ticks=opts.ticks||4;
+    for(let i=0;i<=ticks;i++){const v=min+(max-min)*i/ticks,gy=Y(v);
+      svg.appendChild(el('line',{x1:x0,y1:gy,x2:x1,y2:gy,stroke:'#eee7da','stroke-width':1}));
+      svg.appendChild(el('text',{x:x0-8,y:gy+4,'text-anchor':'end','font-size':10.5,fill:'#9aa2ad','font-family':'IBM Plex Mono,monospace'},opts.axisFmt?opts.axisFmt(v):Math.round(v)));
+    }
+    xs.forEach((lb,i)=>{if(opts.everyOther&&i%2&&i!==n-1)return;
+      svg.appendChild(el('text',{x:X(i),y:y0+18,'text-anchor':'middle','font-size':11,fill:'#6b7480','font-family':'Inter,sans-serif'},lb));});
+    series.forEach(s=>{
+      let d='';s.data.forEach((v,i)=>{if(v==null)return;d+=((d==='')?'M':'L')+X(i).toFixed(1)+' '+Y(v).toFixed(1)+' ';});
+      svg.appendChild(el('path',{d:d,fill:'none',stroke:s.color,'stroke-width':2.6,'stroke-linejoin':'round','stroke-linecap':'round',opacity:s.dash?0.9:1,'stroke-dasharray':s.dash?'5 4':'none'}));
+      let li=s.data.length-1;while(li>0&&s.data[li]==null)li--;
+      svg.appendChild(el('circle',{cx:X(li),cy:Y(s.data[li]),r:3.5,fill:s.color}));
+      svg.appendChild(el('text',{x:X(li)+8,y:Y(s.data[li])+4,'font-size':12,'font-weight':600,fill:s.color,'font-family':'IBM Plex Mono,monospace'},opts.endFmt?opts.endFmt(s.data[li]):s.data[li]));
+    });
+    mount.innerHTML='';mount.appendChild(svg);
+    if(opts.legend!==false)legend(mount,series.map(s=>({label:s.label,color:s.color})));
+  }
+  function legend(mount,items){
+    const wrap=document.createElement('div');wrap.className='legend';
+    items.forEach(it=>{const s=document.createElement('span');
+      s.innerHTML='<i style="background:'+it.color+'"></i>'+it.label;wrap.appendChild(s);});
+    mount.appendChild(wrap);
+  }
+
+  const C={mobile:'#1f5f9e',fiber:'#1f8b6f',fixed:'#b07b1f',pay:'#8a5fb0',
+    accent:'#1f5f9e',danger:'#be3c34',muted:'#9aa2ad',ok:'#2f7d57',warn:'#b07b1f',gray:'#aeb6bf',
+    vivo:'#6b1f9e',tim:'#0a53a8',claro:'#d3322a',oi:'#e0a93b',isp:'#3f9277'};
+
+  const rendered={};
+  function render(id,fn){
+    const m=document.getElementById(id);
+    if(!m||rendered[id])return;
+    if(m.offsetParent===null)return; // only render visible
+    fn(m);rendered[id]=true;
+  }
+  // Chart registry — inline scripts push {id, fn} here; renderAll draws visible ones.
+  window.CHARTS=window.CHARTS||[];
+  function renderAll(){
+    window.CHARTS.forEach(c=>render(c.id,c.fn));
+  }
+  window.__renderCharts=renderAll;
+  window.__chartAPI={hbars,vcols,lines,legend,C,fmt};
+  renderAll();
+  window.addEventListener('resize',()=>{}); // svg responsive via viewBox
+})();
+</script>
+<script>
+  // Destaque de conteúdo novo — AUTO-REVERSÍVEL.
+  // Cada bloco novo recebe data-since="X.Y". Só as versões em HIGHLIGHT ganham o selo "novo".
+  // No próximo publish: troque HIGHLIGHT (ou deixe []) — os blocos antigos revertem sozinhos.
+  (function(){
+    var HIGHLIGHT=['1.2'];
+    document.querySelectorAll('[data-since]').forEach(function(el){
+      if(HIGHLIGHT.indexOf(el.getAttribute('data-since'))<0)return;
+      el.classList.add('is-new');
+      var b=document.createElement('span');
+      b.className='flag-new';b.textContent='novo';
+      el.appendChild(b);
+    });
+  })();
+</script>
+<script>
+  // Navegação e releitura — sumário por aba, deep-link por hash, glossário, voltar-ao-topo, chips de data.
+  (function(){
+    var panels=document.querySelectorAll('.panel');
+    function slug(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').split('-').slice(0,5).join('-');}
+    panels.forEach(function(p){
+      var hs=p.querySelectorAll('h2.sec');
+      if(hs.length<3)return;
+      var toc=document.createElement('nav');toc.className='toc';
+      toc.innerHTML='<span class="toc-t">Nesta aba</span>';
+      hs.forEach(function(h){
+        var t=(h.childNodes[0]&&h.childNodes[0].textContent||h.textContent).trim();
+        if(!h.id)h.id=p.id+'-'+slug(t);
+        var a=document.createElement('a');a.href='#'+p.id+'/'+h.id;a.textContent=t;
+        toc.appendChild(a);
+      });
+      var lead=p.querySelector('.lead');
+      if(lead)lead.insertAdjacentElement('afterend',toc);
+      else p.insertBefore(toc,p.firstElementChild);
+    });
+    function applyHash(){
+      var h=decodeURIComponent(location.hash.slice(1));if(!h)return;
+      var parts=h.split('/'),tab=parts[0],sec=parts[1];
+      if(!document.querySelector('.panel[id="'+tab+'"]'))return;
+      window.__showTab(tab,false);
+      if(sec){var el=document.getElementById(sec);
+        if(el)setTimeout(function(){el.scrollIntoView({block:'start'});},80);}
+    }
+    window.addEventListener('hashchange',applyHash);
+    document.querySelectorAll('.card.go').forEach(function(c){
+      c.setAttribute('role','link');c.setAttribute('tabindex','0');
+      function go(){window.__showTab(c.dataset.goto);}
+      c.addEventListener('click',go);
+      c.addEventListener('keydown',function(e){if(e.key==='Enter')go();});
+    });
+    var top=document.createElement('button');top.id='totop';top.title='Voltar ao topo';
+    top.setAttribute('aria-label','Voltar ao topo');top.textContent='↑';
+    top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+    document.body.appendChild(top);
+    window.addEventListener('scroll',function(){top.classList.toggle('on',window.scrollY>700);},{passive:true});
+
+    var VER=new Date(2026,6,4);
+    var MES={jan:0,fev:1,mar:2,abr:3,mai:4,jun:5,jul:6,ago:7,set:8,out:9,nov:10,dez:11};
+    document.querySelectorAll('[data-asof]').forEach(function(el){
+      var v=el.getAttribute('data-asof'),m=v.match(/^([a-z]{3})\/(\d{2})$/);
+      var chip=document.createElement('span');chip.className='asof';chip.textContent='📌 '+v;
+      if(m){var d=new Date(2000+parseInt(m[2],10),MES[m[1]],15);
+        if((VER-d)/86400000>62)chip.classList.add('old');}
+      el.appendChild(chip);
+    });
+
+    var GLOSS={
+      'Anatel':'Agência Nacional de Telecomunicações — agência reguladora criada em 1997 pela LGT; outorga, fiscaliza e regula o setor.',
+      'LGT':'Lei Geral de Telecomunicações (Lei 9.472/1997) — a lei que criou a Anatel e o modelo de concessões/autorizações.',
+      'SMP':'Serviço Móvel Pessoal — o serviço de telefonia móvel (celular), prestado em regime privado (autorização).',
+      'STFC':'Serviço Telefônico Fixo Comutado — a telefonia fixa; único serviço ainda em regime público (concessão).',
+      'SCM':'Serviço de Comunicação Multimídia — a outorga sob a qual se presta banda larga fixa (internet).',
+      'SeAC':'Serviço de Acesso Condicionado — a TV por assinatura, unificada por lei em 2011.',
+      'FTTH':'Fiber To The Home — fibra óptica até dentro da casa do assinante; padrão dominante da banda larga brasileira.',
+      'HFC':'Hybrid Fiber-Coaxial — rede de cabo (fibra no tronco, coaxial na ponta); a tecnologia da antiga NET/Claro.',
+      'xDSL':'Família de tecnologias de banda larga sobre o par de cobre da telefonia fixa (ADSL/VDSL); em extinção.',
+      'ARPU':'Average Revenue Per User — receita média por usuário/mês; a métrica-chave de rentabilidade das operadoras.',
+      'MVNO':'Mobile Virtual Network Operator — operadora móvel virtual, que revende rede de um MNO sem espectro próprio.',
+      'MNO':'Mobile Network Operator — operadora móvel com rede e espectro próprios (Vivo, TIM, Claro).',
+      'ISP':'Internet Service Provider — provedor de acesso; no Brasil designa os milhares de provedores regionais de fibra.',
+      'PGMU':'Plano Geral de Metas de Universalização — as metas obrigatórias das concessionárias de telefonia fixa.',
+      'PGO':'Plano Geral de Outorgas — define as áreas e o número de prestadoras do serviço em regime público.',
+      'Fust':'Fundo de Universalização dos Serviços de Telecomunicações — fundo setorial para levar acesso a áreas não atendidas.',
+      'Funttel':'Fundo para o Desenvolvimento Tecnológico das Telecomunicações — financia P&D e a indústria nacional do setor.',
+      'V.tal':'Rede neutra de fibra (ex-InfraCo da Oi), controlada pelo BTG e fundos; vende atacado de fibra às operadoras.',
+      'MMdS':'—',
+      'EAF':'Entidade Administradora da Faixa — entidade criada no leilão 5G para custear a limpeza da banda de 3,5 GHz.',
+      'espectro':'A faixa de radiofrequências licenciada às operadoras; insumo escasso outorgado pela Anatel em leilões.',
+      'churn':'Taxa de cancelamento — proporção de clientes que deixam a base num período; inverso da fidelização.',
+      'capex':'Capital Expenditure — investimento em rede e ativos fixos; no setor telecom, tipicamente 15–20% da receita.',
+      'RGU':'Revenue Generating Unit — unidade geradora de receita; cada serviço ativo contratado por um cliente.',
+      'homes passed':'Domicílios passados — casas alcançadas pela rede de fibra (potencial); base do "homes connected" (conectados).',
+      'CADE':'Conselho Administrativo de Defesa Econômica — o antitruste brasileiro; aprova (ou veta) fusões do setor.'
+    };
+    var terms=Object.keys(GLOSS).filter(function(k){return GLOSS[k]!=='—';}).sort(function(a,b){return b.length-a.length;});
+    var rx=new RegExp('\\b('+terms.join('|')+')\\b');
+    panels.forEach(function(p){
+      var seen={};
+      var els=p.querySelectorAll('p,li,td');
+      for(var i=0;i<els.length;i++){
+        var el=els[i];
+        if(el.closest('svg,figcaption,a,.toc,.kpi,.callout .mk'))continue;
+        var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);
+        var node;
+        while((node=walker.nextNode())){
+          if(node.parentElement.closest('a,.gl,svg,code'))continue;
+          var m=node.textContent.match(rx);
+          if(!m||seen[m[1]])continue;
+          var term=m[1];seen[term]=true;
+          var span=document.createElement('span');
+          span.className='gl';span.tabIndex=0;span.setAttribute('data-def',GLOSS[term]);
+          span.textContent=term;
+          var after=node.splitText(m.index);after.textContent=after.textContent.slice(term.length);
+          node.parentNode.insertBefore(span,after);
+        }
+      }
+    });
+    var foot=document.querySelector('footer .wrap')||document.querySelector('footer');
+    if(foot){
+      var det=document.createElement('details');det.id='glossario';
+      var kk=Object.keys(GLOSS).filter(function(k){return GLOSS[k]!=='—';}).sort();
+      var items='';
+      for(var j=0;j<kk.length;j++){items+='<div class="gi"><dt>'+kk[j]+'</dt><dd>'+GLOSS[kk[j]]+'</dd></div>';}
+      det.innerHTML='<summary>Glossário — as siglas do setor ('+kk.length+' termos)</summary><dl>'+items+'</dl>';
+      foot.insertBefore(det,foot.firstElementChild);
+    }
+    applyHash();
+  })();
+</script>
+</body>
+</html>

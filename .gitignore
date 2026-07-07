@@ -1,0 +1,11 @@
+data/*.zip
+data/*.csv
+data/Densidade*
+state/
+__pycache__/
+*.pyc
+
+# deploy safety: nunca commitar dados gerados/grandes
+data/
+output/
+assets/
