@@ -2484,9 +2484,34 @@ CHARTS.push({id:'ch-arpu',fn:function(m){var A=window.__chartAPI;
   <h3 class="sub" data-since="1.2">O que a evolução NÃO resolve</h3>
   <p>Duas objeções naturais: se a <b>bateria</b> melhora e o <b>número de satélites</b> só cresce, o handset de
     banda larga não vem com o tempo? Não — porque os limites que travam não são os que evoluem.</p>
-  <div class="cards c2">
+  <div class="cards c3">
     <div class="card"><h4>Bateria ou térmica?</h4><p>A <b>bateria é energia</b> (Wh) — melhora com a tecnologia e, no limite, dá para levar um power bank. O muro é a <b>térmica</b>, que é <b>potência</b> (W): um corpo de bolso só dissipa <b>~3–6 W</b> sustentados (<b>Q = h·A·ΔT</b> — área e temperatura de pele são fixas), e <b>isso não melhora com bateria nenhuma</b>. A Mini a 17 W já é uma panela. Só quando a potência exigida cair para ~5 W caberia num celular — e o gargalo <em>ainda</em> seria o calor, não a carga.</p></div>
     <div class="card"><h4>Piso da antena (∞ satélites)</h4><p>Com infinitos satélites o prato <b>não vai a zero</b>. O piso é fixado pela <b>frequência</b> e pelo <b>ruído/regulação</b> (limite de PFD da UIT + ruído térmico kTB) e pela <b>resolução para reusar espectro</b> — <b>não pelo nº de satélites</b> (que pode até exigir <em>mais</em> resolução). O único botão para encolher a antena é <b>subir a frequência</b> (em E-band, ~8–10 cm para o mesmo ganho — refém da chuva). Bolso, só baixando a taxa de dados: o D2C.</p></div>
+    <div class="card"><h4>E se resfriar? (fan/Peltier)</h4><p>O calor tem <b>duas partes</b>: <b>tirar do chip</b> (fan, vapor chamber ajudam) e <b>jogar pro ar</b> (Q = h·A·ΔT — a parede). Cooling ataca a 1ª, não a 2ª. <b>Fan</b>: ~10–20 W, mas exige grelhas (não é celular). <b>Peltier</b>: consome energia que <em>vira mais calor</em> — piora. <b>Material que aguenta 200 °C</b>: não adianta, a <b>mão</b> trava em ~48 °C. <b>Radiativo pro céu</b>: só no telhado. Todo cooling <b>empurra pra fora do formato celular</b>.</p></div>
+  </div>
+
+  <h3 class="sub" data-since="1.2">Wrap-up: por que o D2C nunca será banda larga competitiva</h3>
+  <p>Banda larga competitiva por satélite exige, <b>ao mesmo tempo</b>, três coisas que um bolso não dá — e cada
+    uma é <b>física, não engenharia</b>. Basta <em>uma</em> delas para inviabilizar; as três juntas fecham a porta:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>O muro</th><th>Por quê</th><th>Por que não cai com o tempo</th></tr></thead>
+      <tbody>
+        <tr><td><b>Abertura</b><br><span class="mut">geometria</span></td><td>Ganho ∝ área/λ²: antena de bolso não coleta sinal suficiente nem <b>separa satélites</b> para banda larga (interferência)</td><td>Imune a mais satélites, bateria e cooling; só encolhe <b>subindo a frequência</b> — e aí vêm rain fade e mira cirúrgica</td></tr>
+        <tr><td><b>Térmica</b><br><span class="mut">termodinâmica</span></td><td>Banda larga pede <b>dezenas de W</b>; a mão só dissipa <b>~5 W</b> sustentados (Q = h·A·ΔT, área e pele fixas)</td><td>Cooling ataca a parte errada (chip, não o ar) e <b>empurra pra fora do formato celular</b></td></tr>
+        <tr><td><b>Uplink</b><br><span class="mut">link budget</span></td><td>Transmitir <b>de volta</b> com antena minúscula exige potência (EIRP) que a térmica e a bateria não sustentam</td><td>Baixar a frequência resolve — mas aí a banda encolhe, e isso <b>é exatamente o D2C</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout danger">
+    <span class="mk">O VEREDITO — SÃO DOIS PRODUTOS, NÃO UM</span>
+    <p>A <b>frequência amarra tudo</b>: faixa baixa <b>penetra e cabe no celular</b>, mas tem <b>pouca banda</b>;
+      faixa alta <b>tem banda</b>, mas exige <b>abertura grande, céu limpo e dissipação</b>. <b>Não existe faixa que
+      faça as duas coisas.</b> Por isso o D2C é, por construção, o serviço de <b>baixa taxa</b> (texto → voz →
+      dados leves), e a banda larga por satélite mora no <b>prato</b> (área + energia + céu, no telhado). Um
+      <b>celular D2C de banda larga competitiva</b> não é um produto <em>difícil</em> — é uma <b>contradição
+      física</b>: pede antena grande, muita energia e faixa alta <em>dentro de um bolso</em>, três impossibilidades
+      ao mesmo tempo. Por isso o mercado <b>separou os papéis</b> — e sempre serão dois produtos.</p>
   </div>
 
   <h2 class="sec" data-since="1.2">Direct to Cell: o satélite virando antena de celular <span class="tag">quem já é parceiro</span></h2>
