@@ -2433,6 +2433,32 @@ CHARTS.push({id:'ch-arpu',fn:function(m){var A=window.__chartAPI;
       duas coisas — é <b>penetrar</b> <em>ou</em> <b>ter banda</b>. Física, não engenharia.</p>
   </div>
 
+  <h3 class="sub" data-since="1.2">Licenciado vs uso livre — e onde a Starlink está</h3>
+  <p>Espectro "não regulado" não existe — todo espectro tem dono e regra. O que existe é a <b>faixa de uso livre</b>
+    (na Anatel, <span class="gl" data-def="Radiação restrita — regime da Anatel (Res. 680/2017) para equipamentos de uso livre: baixa potência, sem licença e sem proteção contra interferência">radiação restrita</span>,
+    Res. 680/2017): dá para usar <b>sem licença e sem pagar</b>, em troca de <b>potência baixa</b> e <b>zero
+    proteção contra interferência</b> (quem chegar depois também usa). É onde vivem o Wi-Fi e o Bluetooth.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Faixa de uso livre</th><th>Onde</th><th>Usada para</th></tr></thead>
+      <tbody>
+        <tr><td>900 MHz ISM (902–928)</td><td>Américas</td><td>IoT, LoRa, telefone sem fio</td></tr>
+        <tr><td><b>2,4 GHz</b> ISM</td><td>global</td><td><b>Wi-Fi</b>, Bluetooth, Zigbee, micro-ondas</td></tr>
+        <tr><td><b>5 GHz</b> (U-NII)</td><td>global</td><td><b>Wi-Fi 5/6</b></td></tr>
+        <tr><td><b>6 GHz</b> (5,9–7,1)</td><td>Brasil liberou em 2021</td><td><b>Wi-Fi 6E/7</b></td></tr>
+        <tr><td>60 GHz (57–71)</td><td>global</td><td>WiGig, mmWave de curta distância</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout insight">
+    <span class="mk">A STARLINK USA? SÓ NO ÚLTIMO SALTO</span>
+    <p>O <b>enlace de satélite</b> é <b>100% licenciado</b> (Ku/Ka/E/V — exclusivo e coordenado pela UIT): precisa de
+      <b>proteção</b>, de <b>potência</b> (bem acima do teto do uso livre) e de <b>coordenação</b> com os satélites
+      geoestacionários — tudo incompatível com faixa livre. A <b>única</b> parte não licenciada é o <b>Wi-Fi do
+      próprio Dishy</b> (2,4 / 5 / 6 GHz), que liga a antena aos seus aparelhos <b>dentro de casa</b>. Ou seja:
+      <b>o céu é sempre licenciado; o uso livre é só o último salto, na sua sala.</b></p>
+  </div>
+
   <h2 class="sec" data-since="1.2">Energia da antena: por que o prato pesa — e o sonho do handset <span class="tag">link budget</span></h2>
   <p>Receber o sinal, em si, quase não custa energia. O que custa é <b>rastrear</b> o satélite (o array inteiro
     ativo, reapontando o feixe a cada instante), <b>transmitir</b> o uplink e rodar um <b>modem de banda larga</b>.
