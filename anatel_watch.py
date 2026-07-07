@@ -149,8 +149,18 @@ def main():
     json.dump(st, io.open(WSTATE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
     log(f"*** DISPAROU: Anatel publicou {mlabel(novo_mes)}! Relatório em state/anatel_{mk}.md ***")
-    notify_windows("Anatel: novo mês publicado",
-                   f"{mlabel(novo_mes)} disponível. Abra o Claude e diga 'saiu o mês novo, atualiza'.")
+    # auto-publish dos KPIs seguros (móvel/fixo, 1:1 com o _Total) + git push
+    try:
+        import subprocess
+        r = subprocess.run([sys.executable, os.path.join(HERE, "anatel_publish.py")],
+                           cwd=HERE, capture_output=True, text=True, timeout=600)
+        log("  [auto-publish] " + ((r.stdout or "").strip().replace("\n", " | ") or "(sem saída)"))
+        if r.returncode != 0:
+            log("  [auto-publish ERRO] " + ((r.stderr or "").strip()[:500]))
+    except Exception as e:
+        log(f"  [auto-publish falhou] {e}")
+    notify_windows("Anatel: novo mês + dashboard atualizado",
+                   f"{mlabel(novo_mes)}: KPIs móvel/fixo já no ar. Reveja os manuais (TV/BL) em state/REVISAR.")
 
 
 if __name__ == "__main__":
