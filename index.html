@@ -579,6 +579,34 @@
       Série Teleco/Anatel 2021→abr/2026. Pico histórico de ~281 mi em 2014–15 (série sem M2M) antes da faxina de chips. A mudança de definição (inclusão de M2M) explica parte do degrau 2020→2021.</figcaption>
   </figure>
 
+  <h2 class="sec" data-since="1.2">A base humana: quantas linhas são gente? <span class="tag">ex-M2M</span></h2>
+  <p>Se o total inclui máquina, a pergunta certa é: <b>quantas linhas são de pessoas?</b> Filtrando só
+    <b>VOZ+DADOS</b> (o smartphone humano, sem M2M nem maquininhas), a base real é <b>~216 milhões</b> — e está
+    <b>estagnada</b>: cresceu só ~2,4% em 5 anos. <b>Praticamente todo o crescimento do "total" (255→274 mi) é
+    máquina, não gente.</b> É a base humana que importa para ARPU, renda e competição.</p>
+  <figure>
+    <div class="chart" id="ch-movel-humano"></div>
+    <figcaption><span class="ti">Linhas móveis: total (com M2M) vs humanas (VOZ+DADOS) — milhões</span>
+      Microdados Anatel (VOZ+DADOS, ex-M2M/maquininhas/dados-puro). A distância entre as linhas é o <b>mercado de
+      máquinas</b> — cresceu de ~44 mi (2021) para ~58 mi (2026). A base <em>humana</em> mal saiu do lugar.
+      Duas séries independentes, jamais empilhadas.</figcaption>
+  </figure>
+  <figure>
+    <div class="chart" id="ch-movel-humano-share"></div>
+    <figcaption><span class="ti">Market-share das linhas humanas — % (2021→2026)</span>
+      Microdados Anatel. O salto de 2021→2022 é a <b>partilha da Oi</b> (redistribuída aos três). Desde então:
+      <b>Vivo</b> segura a liderança (~39%), a <b>Claro</b> é quem mais avança (27→34%), a <b>TIM</b> cede
+      (27→25%). As <b>MVNOs</b> (fora dos três) saíram de ~1% para <b>2,4%</b> — a borda começando a morder.</figcaption>
+  </figure>
+  <div class="callout insight">
+    <span class="mk">A LEITURA</span>
+    <p>Dois fatos que só aparecem quando se tira a máquina: (1) a base de <b>gente</b> está <b>saturada</b> —
+      o crescimento de "acessos" é IoT, não novos clientes; e (2) no share humano, o oligopólio <b>não é
+      estático</b>: a <b>Claro cola na Vivo</b> (gap caiu de ~12 p.p. para ~5), a TIM recua devagar, e as
+      MVNOs finalmente aparecem. Para ARPU e disputa por cliente, <b>é este o gráfico que importa</b> — não o
+      total inflado por M2M.</p>
+  </div>
+
   <h2 class="sec" data-since="1.0">A grande virada: de pré para pós <span class="tag">o motor do ARPU</span></h2>
   <p>A transformação estrutural do móvel brasileiro não é o número de linhas — é o <b>mix</b>. Em 2008, ~81% das
     linhas eram pré-pago; hoje o pós-pago (incluindo controle) é a maioria. O cruzamento ocorreu em
@@ -698,6 +726,17 @@ CHARTS.push({id:'ch-5g',fn:function(m){var A=window.__chartAPI;
     {label:'dez/24',value:39.9,color:A.C.mobile},
     {label:'dez/25',value:58.1,color:A.C.accent,bold:true}],
     {H:250,max:64,barW:40,axisFmt:function(v){return Math.round(v);}});}});
+CHARTS.push({id:'ch-movel-humano',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[
+    {label:'Total (com M2M)',color:A.C.gray,data:[254.7,252.0,256.4,263.4,270.4,274.5]},
+    {label:'Humanas (VOZ+DADOS)',color:A.C.mobile,data:[211.1,208.6,208.6,211.7,213.2,216.2]}],
+    {xLabels:['2021','2022','2023','2024','2025','2026'],min:190,max:285,everyOther:true,axisFmt:function(v){return Math.round(v)},endFmt:function(v){return v.toFixed(0)}});}});
+CHARTS.push({id:'ch-movel-humano-share',fn:function(m){var A=window.__chartAPI;
+  A.lines(m,[
+    {label:'Vivo',color:A.C.vivo,data:[33.2,39.2,39.0,39.4,38.9,38.9]},
+    {label:'Claro',color:A.C.claro,data:[26.7,32.4,33.4,33.1,33.5,33.9]},
+    {label:'TIM',color:A.C.tim,data:[22.4,27.5,26.6,26.2,25.4,24.9]}],
+    {xLabels:['2021','2022','2023','2024','2025','2026'],min:20,max:42,everyOther:true,axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)+'%'}});}});
 </script>
 
 <!-- ============================ FIBRA ============================ -->
