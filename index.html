@@ -1625,12 +1625,42 @@ CHARTS.push({id:'ch-arpu',fn:function(m){var A=window.__chartAPI;
     <div class="chart" id="ch-fibra-evol"></div>
     <figcaption><span class="ti">Fibra (FTTH) como % da banda larga fixa (2012→2025)</span>A curva que destravou tudo: de ~1% (2012) a 75% (2025). Métrica de tecnologia — sem ambiguidade de operadora.</figcaption>
   </figure>
-  <p>No móvel, a foto é de <b>estabilidade oligopolista</b>: a única grande mudança em uma década foi a
-    <b>partilha da Oi</b> (2022), que elevou os três de um degrau só e zerou o quarto player.</p>
+  <p>No móvel, a média nacional é de <b>estabilidade oligopolista com uma vida longa</b>: por <b>toda a década de
+    2010 a Oi segurou ~18% de share</b> (até subiu para 18,2% em 2021). Ela <b>não perdeu a guerra do móvel</b> —
+    foi a <b>dívida da holding</b> (RJ 2016) que forçou a venda. A única ruptura foi a <b>partilha da Oi</b> (2022),
+    que elevou os três de um degrau e zerou o quarto player. Mas por baixo da média estável há uma <b>batalha
+    regional intensa</b> — ver abaixo.</p>
   <figure>
     <div class="chart" id="ch-mob-evol"></div>
-    <figcaption><span class="ti">Móvel: share por operadora — % (2019→2025)</span>O salto de 2022 é a absorção da Oi Móvel. Desde então, ~38/33/23 praticamente congelado.</figcaption>
+    <figcaption><span class="ti">Móvel: share por operadora — % (2010→2026)</span>A <b>Oi</b> (âmbar) ficou estável ~18% por 12 anos antes do penhasco de 2022 (absorção pelos três). Fontes: 2010-18 microdado histórico (total); 2019+ linhas humanas (ex-máquina). Séries independentes.</figcaption>
   </figure>
+
+  <h2 class="sec" data-since="1.2">A batalha por UF: pré e pós Oi <span class="tag">quem cresceu, quem caiu</span></h2>
+  <p>A média nacional esconde o jogo. A Oi era um <b>player regional</b> — forte no N/NE (herança da Telemar):
+    <b>PB 37%, PE 35%, CE 33%, RN 33%, MA 30%</b> — e fraca no S/SE (SP 11%, SC 9%). Com a partilha (2022) cada
+    estado foi redistribuído de um jeito, e desde então a disputa <b>orgânica</b> tem vencedores e perdedores
+    claros por UF:</p>
+  <figure>
+    <div class="chart" id="ch-oi-heatmap"></div>
+    <figcaption><span class="ti">Pós-Oi: variação de market-share por UF × operadora — p.p. (2022→2026)</span>
+      Linhas humanas (ex-máquina). <b style="color:#1f8b6f">Verde</b> = ganhou share; <b style="color:#d3322a">vermelho</b> = perdeu. Ordenado por região. "MVNO" = fora dos três (inclui a NuCel).</figcaption>
+  </figure>
+  <div class="callout insight">
+    <span class="mk">A LEITURA — PÓS-OI</span>
+    <p><b>Claro é o agressor</b>: ganha share em quase todo o país, com força no <b>N/NE</b> (MT +7,6, RO +7,2,
+      MA +5,5, PE +5,0). <b>TIM é quem mais perde</b>, e perde no <b>Sul/Sudeste</b> (RO −6,5, SC −5,7, PR −4,6,
+      RS −4,6, SP −4,4). A <b>Vivo tem duas caras</b>: segura/avança no SE (SE +5,9, BA +3,3, MG +2,5, SP +1,9)
+      mas <b>despenca no Nordeste</b> (PB −10,6, RN −10,1, CE −9,2, PE −8,2). E as <b>MVNOs explodem no CE e RN
+      (+7,9 cada)</b> — a NuCel e regionais mordendo justo onde a Vivo recuou.</p>
+  </div>
+  <div class="callout warn">
+    <span class="mk">PRÉ-OI — A OI NÃO PERDEU NO MÓVEL</span>
+    <p>Contraintuitivo: entre 2010 e 2021 a Oi <b>manteve ~18% de share</b> (reforçando-se no N/NE enquanto recuava
+      no Centro-Sul). Diferente do <b>fixo</b>, onde a Oi <b>colapsou de 33% para 7%</b> engolida pelos ISPs de
+      fibra, no <b>móvel ela foi competitiva até o fim</b>. O que a matou foi a <b>dívida</b>: a venda da Oi Móvel
+      (2022) pagou credores, não veio de perder clientes. É a diferença entre <em>perder a guerra</em> e <em>ser
+      liquidado por dívida</em>.</p>
+  </div>
 
   <h2 class="sec" data-since="1.1">Quem lidera cada mercado no município <span class="tag">5.571 municípios</span></h2>
   <p>Aqui a divergência fica gritante. No móvel, a liderança se divide entre os três grandes (a Vivo lidera a
@@ -2927,12 +2957,45 @@ CHARTS.push({id:'ch-fibra-evol',fn:function(m){var A=window.__chartAPI;
      axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)+'%'},legend:false});}});
 CHARTS.push({id:'ch-mob-evol',fn:function(m){var A=window.__chartAPI;
   A.lines(m,[
-    {label:'Vivo',color:A.C.vivo,data:[32.9,33.6,32.9,38.9,38.6,38.8,38.1]},
-    {label:'Claro',color:A.C.claro,data:[24.0,25.7,27.7,33.0,33.9,33.1,33.1]},
-    {label:'TIM',color:A.C.tim,data:[24.0,22.0,20.4,24.8,23.9,23.6,22.9]},
-    {label:'Oi (partilhada 2022)',color:A.C.oi,data:[16.2,15.7,16.5,0,null,null,null]}],
-    {xLabels:['2019','2020','2021','2022','2023','2024','2025'],min:0,max:42,
-     axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)}});}});
+    {label:'Vivo',color:A.C.vivo,data:[29.7,29.5,29.1,28.5,28.5,28.4,30.2,31.7,32.1,31.9,33.1,32.5,39.1,39.0,39.3,38.8,38.8]},
+    {label:'Claro',color:A.C.claro,data:[25.4,24.9,24.9,25.3,25.3,25.6,24.7,25.0,24.8,23.1,24.6,26.5,32.7,33.7,33.4,33.7,34.0]},
+    {label:'TIM',color:A.C.tim,data:[25.2,26.5,26.9,27.1,27.0,25.7,26.0,24.8,24.5,25.1,23.1,21.9,27.3,26.4,26.0,25.4,24.8]},
+    {label:'Oi',color:A.C.oi,data:[19.3,18.8,18.8,18.5,18.1,18.6,17.3,16.5,16.5,17.2,16.7,18.2,0,null,null,null,null]}],
+    {xLabels:['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'],
+     min:0,max:42,everyOther:true,axisFmt:function(v){return Math.round(v)+'%'},endFmt:function(v){return v.toFixed(0)}});}});
+CHARTS.push({id:'ch-oi-heatmap',fn:function(mount){
+  var NS='http://www.w3.org/2000/svg';
+  function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+  var REG=[
+    ['Norte',[['AC',[-2.7,4.0,-1.8,0.5]],['AP',[-3.5,3.6,-1.5,1.3]],['AM',[-3.1,1.8,0.8,0.4]],['PA',[0.0,1.0,-1.9,0.9]],['RO',[-1.4,7.2,-6.5,0.7]],['RR',[-1.5,0.4,-0.3,1.5]],['TO',[-1.6,5.3,-4.3,0.6]]]],
+    ['Nordeste',[['AL',[-7.5,4.5,2.3,0.6]],['BA',[3.3,-3.4,-0.5,0.6]],['CE',[-9.2,1.0,0.2,7.9]],['MA',[-3.3,5.5,-3.4,1.1]],['PB',[-10.6,4.6,2.4,3.6]],['PE',[-8.2,5.0,2.1,1.0]],['PI',[-1.0,0.9,-1.5,1.5]],['RN',[-10.1,2.4,-0.1,7.9]],['SE',[5.9,-7.5,0.9,0.7]]]],
+    ['Centro-Oeste',[['DF',[1.6,0.8,-3.2,0.8]],['GO',[0.3,1.9,-2.8,0.7]],['MT',[-3.7,7.6,-4.4,0.5]],['MS',[-3.2,2.9,-0.6,0.9]]]],
+    ['Sudeste',[['ES',[0.5,-0.9,-0.5,0.9]],['MG',[2.5,-1.8,-1.3,0.6]],['RJ',[0.4,2.3,-3.3,0.6]],['SP',[1.9,1.8,-4.4,0.7]]]],
+    ['Sul',[['PR',[0.8,1.8,-4.6,2.1]],['RS',[-0.4,3.0,-4.6,2.0]],['SC',[0.6,0.3,-5.7,4.8]]]]
+  ];
+  var COLS=[['Vivo','#6b1f9e'],['Claro','#d3322a'],['TIM','#0a53a8'],['MVNO','#3f9277']];
+  var labelW=48, cellW=92, rowH=19, regH=17, headH=26, W=labelW+4*cellW+8, nr=0;
+  REG.forEach(function(r){nr+=r[1].length;});
+  var H=headH+REG.length*regH+nr*rowH+6;
+  var svg=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img',style:'width:100%;height:auto;max-width:'+W+'px;display:block;margin:0 auto;font-family:Inter,system-ui,sans-serif'});
+  COLS.forEach(function(c,j){var cx=labelW+j*cellW+cellW/2;
+    svg.appendChild(el('circle',{cx:cx-28,cy:15,r:4,fill:c[1]}));
+    svg.appendChild(el('text',{x:cx-20,y:19,'font-size':12,'font-weight':650,fill:'#1b1f27'},c[0]));});
+  function col(v){var a=Math.min(1,Math.abs(v)/9);
+    return v>=0?'rgba(31,139,111,'+(0.10+a*0.78)+')':'rgba(211,50,42,'+(0.10+a*0.78)+')';}
+  var y=headH;
+  REG.forEach(function(r){
+    svg.appendChild(el('text',{x:2,y:y+12,'font-size':10,'font-weight':700,fill:'#9aa2ad'},r[0].toUpperCase()));
+    y+=regH;
+    r[1].forEach(function(row){
+      svg.appendChild(el('text',{x:labelW-8,y:y+13,'text-anchor':'end','font-size':11.5,'font-weight':600,fill:'#3a4150'},row[0]));
+      row[1].forEach(function(v,j){var x=labelW+j*cellW;
+        svg.appendChild(el('rect',{x:x+1,y:y+1,width:cellW-2,height:rowH-2,rx:3,fill:col(v)}));
+        svg.appendChild(el('text',{x:x+cellW/2,y:y+13,'text-anchor':'middle','font-size':11,'font-weight':(Math.abs(v)>=5?700:500),fill:'#1b1f27'},(v>0?'+':'')+v.toFixed(1)));});
+      y+=rowH;
+    });
+  });
+  mount.innerHTML='';mount.appendChild(svg);}});
 CHARTS.push({id:'ch-lider-mob',fn:function(m){var A=window.__chartAPI;
   A.hbars(m,[
     {label:'Vivo',value:52.3,color:A.C.vivo,bold:true},
